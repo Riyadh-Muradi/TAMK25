@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "tpl.plugins": "json",
+        "iostream": "cpp",
+        "istream": "cpp"
+    }
+}
