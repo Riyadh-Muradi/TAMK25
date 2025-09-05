@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-int exercise5()
+int main()
 {
     //°C = (°F - 32) × 5/9
     cout << "Enter a °F temperature to convert to °C: ";

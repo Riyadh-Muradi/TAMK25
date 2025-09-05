@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-int exercise3()
+int main()
 {
     double sales = 95000;
     cout << "Sales: $" << sales << endl;

@@ -10,7 +10,7 @@ int Tehtava_1()
     return 0;
 }
 
-int Tehtava_1()
+int Tehtava_2()
 {
     int number;
 
@@ -23,7 +23,7 @@ int Tehtava_1()
     return 0;
 }
 
-int Tehtava_1()
+int Tehtava_3()
 {
     int age;
 
@@ -36,7 +36,7 @@ int Tehtava_1()
     return 0;
 }
 
-int Tehtava_1()
+int Tehtava_4()
 {
     int luku1, luku2;
 

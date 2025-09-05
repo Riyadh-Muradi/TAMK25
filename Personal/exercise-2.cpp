@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-int exercise2()
+int main()
 {
     int x = 10;
     int y = 11;

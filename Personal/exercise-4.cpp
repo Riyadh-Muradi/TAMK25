@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-int exercise4()
+int main()
 {
     cout << "Enter values for x and y: ";
 
