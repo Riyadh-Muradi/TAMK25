@@ -2,7 +2,8 @@
 
 using namespace std; /* Use the namespace */
 
-int main() { /* Main program starts here */
+int main()
+{ /* Main program starts here */
 
     cout << "Hello World!";
 
