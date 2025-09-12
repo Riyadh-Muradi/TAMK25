@@ -11,7 +11,6 @@ const double pii=3.141592654; */
 
 int main()
 {
-
     cout << "Syötä ympyrän sädettä: ";
     double sade;
     cin >> sade;

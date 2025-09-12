@@ -16,7 +16,6 @@ Alennettu hinta on: 71.40 euroa. */
 
 int main()
 {
-
     double alku;
     double prosentti;
 
