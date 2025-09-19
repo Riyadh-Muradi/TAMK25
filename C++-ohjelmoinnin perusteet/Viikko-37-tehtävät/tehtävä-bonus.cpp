@@ -10,8 +10,7 @@ using namespace std;
 
 int main()
 {
-    double raha;
-    double korkokanta;
+    double raha, korkokanta;
 
     cout << "Anna rahasumma euroa: ";
     cin >> raha;
