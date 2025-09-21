@@ -18,11 +18,6 @@ int main()
     cout << "Milloin alkaa työvuoro?: ";
     cin >> aika;
 
-    int aika;
-
-    cout << "Milloin alkaa työvuoro?: ";
-    cin >> aika;
-
     /**
      * valitsee oikean työvuoron alkamiskellonajan perusteella.
      **/
