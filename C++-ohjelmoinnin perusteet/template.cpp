@@ -4,8 +4,12 @@
 
 using namespace std;
 
-int main() {
+/* Tekijä: Riyadh Muradi */
 
+/*  */
+
+int main()
+{
     setlocale(LC_ALL, "FI_fi");
 
     return 0;
