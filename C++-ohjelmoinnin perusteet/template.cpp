@@ -7,7 +7,7 @@ using namespace std;
 
 /* Tekijä: Riyadh Muradi */
 
-/*  */
+/* */
 
 int main()
 {
