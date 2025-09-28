@@ -14,18 +14,16 @@ int main()
 
     int luku;
 
-    cout << "Anna kokonaisluku: ";
+    cout << "Kirjoita positiivinen kokonaisluku: ";
     cin >> luku;
 
-    cout << "Parilliset luvut: ";
+    cout << "Luvut ovat: ";
 
-    for (int i = 0; i <= luku; i++)
+    for (int i = luku; i >= -luku; i--)
     {
-        if (i % 2 == 0)
-        {
-            cout << i << " ";
-        }
+        cout << i << " ";
     }
+
     cout << endl;
 
     return 0;

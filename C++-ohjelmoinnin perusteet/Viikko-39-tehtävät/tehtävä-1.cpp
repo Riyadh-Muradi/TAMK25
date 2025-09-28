@@ -21,13 +21,11 @@ int main()
     cout << "Luvut ovat: ";
 
     int i = luku;
-    do
+    while (i >= -luku)
     {
         cout << i << " ";
         i--;
-    } while (i >= -luku);
-
-    cout << endl;
+    }
 
     return 0;
     /* return EXIT_SUCCESS; */

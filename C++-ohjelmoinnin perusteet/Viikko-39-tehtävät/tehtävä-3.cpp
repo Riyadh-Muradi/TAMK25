@@ -23,7 +23,7 @@ int main()
     /**
      * Tulostetaan parilliset luvut väliltä 2...luku loppuehtoisella silmukalla
      */
-    int i = 2;
+    int i = 1;
     do
     {
         if (i % 2 == 0)
