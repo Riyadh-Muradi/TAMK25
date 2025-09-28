@@ -38,6 +38,9 @@ int main()
         cout << "Anna hypyn pituus, metriä: ";
         cin >> pituus;
 
+        /**
+         * Kysytään tuomareiden tyylipisteet ja lasketaan summa
+         **/
         for (int i = 0; i < TUOMAREITA; i++)
         {
             cout << "Anna " << (i + 1) << ". tuomarin tyylipisteet: ";
@@ -45,6 +48,9 @@ int main()
             summa += pisteet[i];
         }
 
+        /**
+         * Etsitään suurin ja pienin tyylipiste
+         **/
         maxPisteet = pisteet[0];
         minPisteet = pisteet[0];
         for (int i = 1; i < TUOMAREITA; i++)
@@ -55,8 +61,11 @@ int main()
                 minPisteet = pisteet[i];
         }
 
-        double pisteetIlmanAarempia = summa - maxPisteet - minPisteet;
-        double kokonaisPisteet = pisteetIlmanAarempia + 0.9 * pituus;
+        /**
+         * Lasketaan kokonaispisteet ilman suurinta ja pienintä tyylipistettä
+         **/
+        double tyyliPisteet = summa - maxPisteet - minPisteet;
+        double kokonaisPisteet = tyyliPisteet + 0.9 * pituus;
 
         cout << "Hypyn kokonaispisteet: " << kokonaisPisteet << endl;
 
