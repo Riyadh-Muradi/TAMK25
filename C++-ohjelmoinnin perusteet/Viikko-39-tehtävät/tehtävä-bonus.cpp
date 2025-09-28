@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <string>
+#include <locale>
 
 using namespace std;
 
@@ -23,46 +24,46 @@ Anna 5. tuomarin tyylipisteet: */
 
 int main()
 {
-    setlocale(LC_ALL, "FI_fi");
+    setlocale(LC_ALL, "fi_FI.UTF-8");
 
     const int TUOMAREITA = 5;
-    double pisteet[TUOMAREITA];
-    double summaPisteet = 0;
-    double pituus, maxPisteet, minPisteet;
+    string uudelleen;
 
-    cout << "Anna hypyn pituus, metriä: ";
-    cin >> pituus;
-
-    /**
-     * Kysytään tuomareiden pisteet ja lasketaan summa
-     */
-    for (int i = 0; i < TUOMAREITA; i++)
+    do
     {
-        cout << "Anna " << (i + 1) << ". tuomarin tyylipisteet: ";
-        cin >> pisteet[i];
-        summaPisteet += pisteet[i];
-    }
+        double pisteet[TUOMAREITA];
+        double summa = 0;
+        double pituus, maxPisteet, minPisteet;
 
-    /**
-     * Etsitään suurin ja pienin piste
-     */
-    maxPisteet = pisteet[0];
-    minPisteet = pisteet[0];
-    for (int i = 1; i < TUOMAREITA; i++)
-    {
-        if (pisteet[i] > maxPisteet)
-            maxPisteet = pisteet[i];
-        if (pisteet[i] < minPisteet)
-            minPisteet = pisteet[i];
-    }
+        cout << "Anna hypyn pituus, metriä: ";
+        cin >> pituus;
 
-    /**
-     * Lasketaan kokonaispisteet ilman suurinta ja pienintä
-     */
-    double pisteetIlmanAarempia = summaPisteet - maxPisteet - minPisteet;
-    double kokonaisPisteet = pisteetIlmanAarempia + 0.9 * pituus;
+        for (int i = 0; i < TUOMAREITA; i++)
+        {
+            cout << "Anna " << (i + 1) << ". tuomarin tyylipisteet: ";
+            cin >> pisteet[i];
+            summa += pisteet[i];
+        }
 
-    cout << "Hypyn kokonaispisteet (ilman suurinta ja pienintä): " << kokonaisPisteet << endl;
+        maxPisteet = pisteet[0];
+        minPisteet = pisteet[0];
+        for (int i = 1; i < TUOMAREITA; i++)
+        {
+            if (pisteet[i] > maxPisteet)
+                maxPisteet = pisteet[i];
+            if (pisteet[i] < minPisteet)
+                minPisteet = pisteet[i];
+        }
+
+        double pisteetIlmanAarempia = summa - maxPisteet - minPisteet;
+        double kokonaisPisteet = pisteetIlmanAarempia + 0.9 * pituus;
+
+        cout << "Hypyn kokonaispisteet: " << kokonaisPisteet << endl;
+
+        cout << "Uudelleen (k/e)? ";
+        cin >> uudelleen;
+
+    } while (uudelleen == "k" || uudelleen == "K");
 
     return 0;
 }
