@@ -22,7 +22,10 @@ int main()
 
     srand(time(0));
 
+    /* Arvotaan luku väliltä 0-10 */
     int kymppi = rand() % 11;
+
+    /* Arvotaan luku väliltä 50-100 */
     int sata = 50 + rand() % 51;
 
     cout << "Satunnaisluvuksi väliltä 0-10 tuli: " << kymppi << endl;
