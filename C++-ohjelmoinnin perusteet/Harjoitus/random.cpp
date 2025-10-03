@@ -15,6 +15,10 @@ int main()
 {
     setlocale(LC_ALL, "fi_FI.UTF-8");
 
+    srand(time(0));
+
+    int randNum = 50 + rand() % 51;
+
     return 0;
     /* return EXIT_SUCCESS; */
-} 
+}
