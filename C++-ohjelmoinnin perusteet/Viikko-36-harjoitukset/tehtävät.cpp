@@ -28,7 +28,7 @@ int Tehtava_3()
     int age;
 
     cout << "Anna ikäsi? ";
-    
+
     cin >> age;
 
     cout << "50 vuoden kuluttua oot " << age + 50 << " vuotias" << endl;

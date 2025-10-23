@@ -20,9 +20,9 @@ Tulostaa taulukon sisällön sekä piirtää jokaiselle arvolla tähtipalkin (hi
     Arvo 8: ********
 */
 
-/* 
+/*
 ^
-Tosi huono esimerkki 
+Tosi huono esimerkki
 */
 
 int main()
