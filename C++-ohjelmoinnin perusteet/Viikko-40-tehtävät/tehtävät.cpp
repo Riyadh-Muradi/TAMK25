@@ -4,7 +4,7 @@
 #include <locale>
 #include <cstdlib>
 #include <ctime>
-#include <algorithm>
+#include <iomanip>
 
 using namespace std;
 
@@ -13,51 +13,46 @@ using namespace std;
 void assignment1()
 {
     /* Tehtävä 1 */
-    cout << "Hello World!" << endl;
+    srand(time(0));
+
+    int kymppi = rand() % 11;
+    int sata = 50 + rand() % 51;
+
+    cout << "Satunnaisluvuksi väliltä 0-10 tuli: " << kymppi << endl;
+    cout << "Satunnaisluku väliltä 50-100 tuli: " << sata << endl;
 }
 
 void assignment2()
 {
     /* Tehtävä 2 */
-    cout << "Ollako vai eiko olla." << endl;
-    cout << "Kas siina pulma." << endl;
+    srand(time(0));
+
+    int x0_100 = rand() % 101;
+    double valilta0_1 = x0_100 / 100.0;
+
+    int x50_100 = 50 + rand() % 51;
+    double valilta05_1 = x50_100 / 100.0;
+
+    cout << fixed << setprecision(2);
+    cout << "Satunnaisluku väliltä 0-1: " << valilta0_1 << endl;
+    cout << "Satunnaisluku väliltä 0,5-1: " << valilta05_1 << endl;
 }
 
 void assignment3()
 {
     /* Tehtävä 3 */
-    int number;
+    int luvut;
 
-    cout << "Syota luku: ";
-    cin >> number;
+    cout << "Kirjoita positiivinen kokonaisluku (vähintään 1): ";
+    cin >> luvut;
 
-    cout << "Syötit luvun " << number << endl;
-}
-
-void assignment4()
-{
-    /* Tehtävä 4 */
-    int age;
-
-    cout << "Anna ikäsi? ";
-    cin >> age;
-
-    cout << "50 vuoden kuluttua oot " << age + 50 << " vuotias" << endl;
-}
-
-void assignment5()
-{
-    /* Tehtävä 5 */
-    int luku1, luku2;
-
-    cout << "Syötä ensimmäinen luku: ";
-    cin >> luku1;
-
-    cout << "Syötä toinen luku: ";
-    cin >> luku2;
-
-    cout << "Lukujen erotus on " << luku1 - luku2 << endl;
-    cout << "Lukujen tulo on " << luku1 * luku2 << endl;
+    cout << "Luvut ovat: ";
+    cout << 0;
+    for (int i = 1; i <= luvut; ++i)
+    {
+        cout << ", " << i << ", " << -i;
+    }
+    cout << "." << endl;
 }
 
 int main()
@@ -71,8 +66,6 @@ int main()
         cout << " 1) Tehtävä 1\n";
         cout << " 2) Tehtävä 2\n";
         cout << " 3) Tehtävä 3\n";
-        cout << " 4) Tehtävä 4\n";
-        cout << " 5) Tehtävä 5\n";
         cout << "Valinta: ";
 
         int valinta = -1;
@@ -91,12 +84,6 @@ int main()
             break;
         case 3:
             assignment3();
-            break;
-        case 4:
-            assignment4();
-            break;
-        case 5:
-            assignment5();
             break;
         default:
             cout << "Virheellinen valinta, yritä uudelleen.\n";
