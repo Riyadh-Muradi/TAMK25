@@ -102,7 +102,6 @@ void assignment3()
     /* Tehtävä 3 */
 
     srand(time(0));
-
     const int NUMEROITA = 7;
     const int MAX_NUMERO = 40;
     int kierrokset;
@@ -143,9 +142,9 @@ void assignment3()
 
     for (int kierros = 1; kierros <= kierrokset; kierros++)
     {
-        int arpa[NUMEROITA];
+        int arpa[NUMEROITA]; /* Arvotut numerot */
 
-        /* Arvotut numerot */
+        /* Arvotaan lottonumerot */
         for (int i = 0; i < NUMEROITA; i++)
         {
             bool kelvollinen;
@@ -164,7 +163,7 @@ void assignment3()
             } while (!kelvollinen);
         }
 
-        /* Tulostukset */
+        /* Tulostetaan kierroksen tiedot */
         cout << "\nKierros " << kierros << ":\n";
         cout << "Pelaajan numerot: ";
         for (int i = 0; i < NUMEROITA; i++)
@@ -177,7 +176,7 @@ void assignment3()
             cout << arpa[i] << " ";
         }
 
-        /* Osumat */
+        /* Tarkistetaan osumat */
         int oikein = 0;
         cout << "\nOsuneet numerot: ";
         for (int i = 0; i < NUMEROITA; i++)
