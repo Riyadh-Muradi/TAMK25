@@ -1,10 +1,6 @@
 #include <iostream>
-#include <cmath>
-#include <string>
-#include <locale>
 #include <cstdlib>
 #include <ctime>
-#include <limits>
 #include <algorithm>
 
 using namespace std;
@@ -14,26 +10,25 @@ using namespace std;
 void assignment1()
 {
     /* Tehtävä 1 */
-
     const int LUKUJEN_MAARA = 10;
     int luvut[LUKUJEN_MAARA];
 
-    cout << "Kirjoita " << LUKUJEN_MAARA << " kokonaislukua: ";
-
+    cout << "Syötä " << LUKUJEN_MAARA << " kokonaislukua: ";
     for (int i = 0; i < LUKUJEN_MAARA; i++)
     {
         cin >> luvut[i];
     }
 
-    /* Tulostetaan luvut ennen lajittelua */
     cout << "\nEnnen lajittelua: ";
-    for (int i = 0; i < LUKUJEN_MAARA; ++i)
-        cout << luvut[i] << " ";
-    cout << "\n";
-
-    for (int i = 0; i < LUKUJEN_MAARA - 1; ++i)
+    for (int i = 0; i < LUKUJEN_MAARA; i++)
     {
-        for (int j = 0; j < LUKUJEN_MAARA - i - 1; ++j)
+        cout << luvut[i] << " ";
+    }
+    cout << endl;
+
+    for (int i = 0; i < LUKUJEN_MAARA - 1; i++)
+    {
+        for (int j = 0; j < LUKUJEN_MAARA - i - 1; j++)
         {
             if (luvut[j] > luvut[j + 1])
             {
@@ -42,160 +37,136 @@ void assignment1()
         }
     }
 
-    /* Tulostetaan luvut lajittelun jälkeen */
-    cout << "Lajittelun jalkeen: ";
-    for (int i = 0; i < LUKUJEN_MAARA; ++i)
+    cout << "Lajittelun jälkeen: ";
+    for (int i = 0; i < LUKUJEN_MAARA; i++)
+    {
         cout << luvut[i] << " ";
-    cout << "\n";
+    }
+    cout << endl;
 }
 
 void assignment2()
 {
-    /* Tehtävä 5: */
-
+    /* Tehtävä 2 */
     const int LUKUJEN_MAARA = 8;
     int taulukko[LUKUJEN_MAARA] = {2, 14, 26, 38, 60, 72, 84, 96};
 
-    /* Tulostetaan taulukko */
     cout << "Taulukko: ";
-    for (int i = 0; i < LUKUJEN_MAARA; ++i)
-        cout << taulukko[i] << (i + 1 < LUKUJEN_MAARA ? ", " : "\n");
+    for (int i = 0; i < LUKUJEN_MAARA; i++)
+    {
+        cout << taulukko[i] << " ";
+    }
+    cout << endl;
 
-    /* Pyydetään haettava luku */
     cout << "Anna haettava luku (1-100): ";
-
     int haettava;
     cin >> haettava;
 
-    /* Yksinkertainen validointi */
     if (haettava < 1 || haettava > 100)
     {
-        cout << "Luku ei kelpaa (1-100).\n";
-        return 0;
+        cout << "Luku ei kelpaa (1-100)." << endl;
+        return;
     }
 
-    /* Binäärihaku */
-    int vasen = 0;
-    int oikea = LUKUJEN_MAARA - 1;
-    int indeksi = -1;
-    int vertailut = 0;
+    int vasen = 0,
+        oikea = LUKUJEN_MAARA - 1,
+        indeksi = -1,
+        vertailut = 0;
 
     while (vasen <= oikea)
     {
         int keski = (vasen + oikea) / 2;
-        ++vertailut;
+        vertailut++;
 
         if (taulukko[keski] == haettava)
         {
             indeksi = keski;
             break;
         }
-
-        if (taulukko[keski] < haettava)
+        else if (taulukko[keski] < haettava)
+        {
             vasen = keski + 1;
+        }
         else
+        {
             oikea = keski - 1;
+        }
     }
 
-    /* Tulostetaan tulokset */
-    cout << "\nTulokset:\n";
-    cout << "Indeksi: " << indeksi << "\n";
-    cout << "Vertailuja: " << vertailut << "\n";
+    cout << "Indeksi: " << indeksi << endl;
+    cout << "Vertailuja: " << vertailut << endl;
 }
 
 void assignment3()
 {
-    /* Tehtävä 3: */
-    int pelaaja[7];
-    int arpa[7];
+    /* Tehtävä 3 */
+    const int NUMEROITA = 7;
+    const int MAX_NUMERO = 40;
+    int pelaaja[NUMEROITA], arpa[NUMEROITA];
 
-    // Pelaajan numerot
-    cout << "Valitse 7 eri numeroa väliltä 1-40:\n";
-    for (int i = 0; i < 7; i++)
+    cout << "Valitse " << NUMEROITA << " eri numeroa väliltä 1-" << MAX_NUMERO << ":\n";
+    for (int i = 0; i < NUMEROITA; i++)
     {
-        int numero;
         bool kelvollinen = false;
-
         while (!kelvollinen)
         {
             cout << "Numero " << (i + 1) << ": ";
-            cin >> numero;
+            cin >> pelaaja[i];
 
-            if (numero < 1 || numero > 40)
+            if (pelaaja[i] < 1 || pelaaja[i] > MAX_NUMERO)
             {
-                cout << "Numero pitää olla väliltä 1-40!\n";
+                cout << "Numero pitää olla väliltä 1-" << MAX_NUMERO << "!\n";
                 continue;
             }
 
-            // Tarkista, onko numero jo valittu
-            bool loytyi = false;
+            kelvollinen = true;
             for (int j = 0; j < i; j++)
             {
-                if (pelaaja[j] == numero)
+                if (pelaaja[j] == pelaaja[i])
                 {
-                    loytyi = true;
+                    cout << "Numero on jo valittu!\n";
+                    kelvollinen = false;
                     break;
                 }
-            }
-
-            if (loytyi)
-            {
-                cout << "Numero on jo valittu!\n";
-            }
-            else
-            {
-                pelaaja[i] = numero;
-                kelvollinen = true;
             }
         }
     }
 
-    // Arvotaan lottonumerot
-    for (int i = 0; i < 7; i++)
+    srand(time(0));
+    for (int i = 0; i < NUMEROITA; i++)
     {
-        int numero;
-        bool loytyi;
-
+        bool kelvollinen;
         do
         {
-            numero = rand() % 40 + 1;
-            loytyi = false;
-
+            arpa[i] = rand() % MAX_NUMERO + 1;
+            kelvollinen = true;
             for (int j = 0; j < i; j++)
             {
-                if (arpa[j] == numero)
+                if (arpa[j] == arpa[i])
                 {
-                    loytyi = true;
+                    kelvollinen = false;
                     break;
                 }
             }
-        } while (loytyi);
-
-        arpa[i] = numero;
+        } while (!kelvollinen);
     }
 
-    // Tulostus
-    cout << "\n--- TULOKSET ---\n";
-    cout << "Pelaajan numerot: ";
-    for (int i = 0; i < 7; i++)
+    cout << "\nPelaajan numerot: ";
+    for (int i = 0; i < NUMEROITA; i++)
     {
         cout << pelaaja[i] << " ";
     }
-    cout << "\n";
-
-    cout << "Arvotut numerot: ";
-    for (int i = 0; i < 7; i++)
+    cout << "\nArvotut numerot: ";
+    for (int i = 0; i < NUMEROITA; i++)
     {
         cout << arpa[i] << " ";
     }
-    cout << "\n";
 
-    // Vertaa numerot
-    cout << "Osuneet numerot: ";
     int oikein = 0;
-    for (int i = 0; i < 7; i++)
+    cout << "\nOsuneet numerot: ";
+    for (int i = 0; i < NUMEROITA; i++)
     {
-        for (int j = 0; j < 7; j++)
+        for (int j = 0; j < NUMEROITA; j++)
         {
             if (pelaaja[i] == arpa[j])
             {
@@ -205,9 +176,7 @@ void assignment3()
             }
         }
     }
-    cout << "\n";
-
-    cout << "Oikein: " << oikein << "/7\n";
+    cout << "\nOikein: " << oikein << "/" << NUMEROITA << endl;
 }
 
 int main()
@@ -223,7 +192,7 @@ int main()
         cout << " 3) Tehtävä 3\n";
         cout << "Valinta: ";
 
-        int valinta = -1;
+        int valinta;
         cin >> valinta;
 
         switch (valinta)
@@ -246,11 +215,9 @@ int main()
         }
 
         cout << "Paina Enter jatkaaksesi...";
-        string tmp;
         cin.ignore();
-        getline(cin, tmp);
+        cin.get();
     }
 
     return 0;
-    /* return EXIT_SUCCESS; */
 }
