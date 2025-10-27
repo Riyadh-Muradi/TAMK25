@@ -100,10 +100,15 @@ void assignment2()
 void assignment3()
 {
     /* Tehtävä 3 */
+
+    srand(time(0));
+
     const int NUMEROITA = 7;
     const int MAX_NUMERO = 40;
-    int pelaaja[NUMEROITA], arpa[NUMEROITA];
+    int kierrokset;
+    int pelaaja[NUMEROITA];
 
+    /* Pelaajan numerot syötetään kerran */
     cout << "Valitse " << NUMEROITA << " eri numeroa väliltä 1-" << MAX_NUMERO << ":\n";
     for (int i = 0; i < NUMEROITA; i++)
     {
@@ -132,51 +137,63 @@ void assignment3()
         }
     }
 
-    srand(time(0));
-    for (int i = 0; i < NUMEROITA; i++)
+    /* Kysytään kierrosten määrä */
+    cout << "Kuinka monta kierrosta haluat pelata? ";
+    cin >> kierrokset;
+
+    for (int kierros = 1; kierros <= kierrokset; kierros++)
     {
-        bool kelvollinen;
-        do
+        int arpa[NUMEROITA];
+
+        /* Arvotut numerot */
+        for (int i = 0; i < NUMEROITA; i++)
         {
-            arpa[i] = rand() % MAX_NUMERO + 1;
-            kelvollinen = true;
-            for (int j = 0; j < i; j++)
+            bool kelvollinen;
+            do
             {
-                if (arpa[j] == arpa[i])
+                arpa[i] = rand() % MAX_NUMERO + 1;
+                kelvollinen = true;
+                for (int j = 0; j < i; j++)
                 {
-                    kelvollinen = false;
+                    if (arpa[j] == arpa[i])
+                    {
+                        kelvollinen = false;
+                        break;
+                    }
+                }
+            } while (!kelvollinen);
+        }
+
+        /* Tulostukset */
+        cout << "\nKierros " << kierros << ":\n";
+        cout << "Pelaajan numerot: ";
+        for (int i = 0; i < NUMEROITA; i++)
+        {
+            cout << pelaaja[i] << " ";
+        }
+        cout << "\nArvotut numerot: ";
+        for (int i = 0; i < NUMEROITA; i++)
+        {
+            cout << arpa[i] << " ";
+        }
+
+        /* Osumat */
+        int oikein = 0;
+        cout << "\nOsuneet numerot: ";
+        for (int i = 0; i < NUMEROITA; i++)
+        {
+            for (int j = 0; j < NUMEROITA; j++)
+            {
+                if (pelaaja[i] == arpa[j])
+                {
+                    cout << pelaaja[i] << " ";
+                    oikein++;
                     break;
                 }
             }
-        } while (!kelvollinen);
-    }
-
-    cout << "\nPelaajan numerot: ";
-    for (int i = 0; i < NUMEROITA; i++)
-    {
-        cout << pelaaja[i] << " ";
-    }
-    cout << "\nArvotut numerot: ";
-    for (int i = 0; i < NUMEROITA; i++)
-    {
-        cout << arpa[i] << " ";
-    }
-
-    int oikein = 0;
-    cout << "\nOsuneet numerot: ";
-    for (int i = 0; i < NUMEROITA; i++)
-    {
-        for (int j = 0; j < NUMEROITA; j++)
-        {
-            if (pelaaja[i] == arpa[j])
-            {
-                cout << pelaaja[i] << " ";
-                oikein++;
-                break;
-            }
         }
+        cout << "\nOikein: " << oikein << "/" << NUMEROITA << "\n";
     }
-    cout << "\nOikein: " << oikein << "/" << NUMEROITA << endl;
 }
 
 int main()
