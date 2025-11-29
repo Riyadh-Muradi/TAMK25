@@ -43,9 +43,9 @@ export function VarausLomake() {
               <span className="text-foreground font-semibold">Yöt:</span>
               <p>{yot}</p>
             </div>
-            <div className="bg-accent/15 col-span-2 rounded p-3">
+            <div className="bg-accent/15 col-span-2 rounded ">
               <span className="text-foreground font-semibold">Hinta: </span>
-              <span className="text-accent text-2xl font-bold">
+              <span className="text-md font-bold">
                 {loppuhinta}€
               </span>
             </div>
