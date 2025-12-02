@@ -43,11 +43,9 @@ export function VarausLomake() {
               <span className="text-foreground font-semibold">Yöt:</span>
               <p>{yot}</p>
             </div>
-            <div className="bg-accent/15 col-span-2 rounded ">
+            <div className="bg-accent/15 col-span-2 rounded">
               <span className="text-foreground font-semibold">Hinta: </span>
-              <span className="text-md font-bold">
-                {loppuhinta}€
-              </span>
+              <span className="text-md font-bold">{loppuhinta}€</span>
             </div>
           </div>
           <Button onClick={() => setNaytaVahvistus(false)} className="w-full">
