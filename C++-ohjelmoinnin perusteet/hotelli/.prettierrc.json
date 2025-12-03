@@ -1,4 +1,3 @@
 {
-  "extends": "prettier",
   "plugins": ["prettier-plugin-tailwindcss"]
 }
