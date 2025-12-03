@@ -137,7 +137,7 @@ bool kysy_jatka()
     cout << "Haluatko tehdä uuden varauksen? (k/e): ";
     string vastaus;
     getline(cin, vastaus);
-    
+
     if (vastaus == "k" || vastaus == "K")
         return true;
     return false;
@@ -167,19 +167,36 @@ int main()
     int varausnumero;
     bool jatka = true;
 
-    int valinta = 0;
-    cout << "Valitse: 1 = Uusi varaus, 2 = Etsi varaus: ";
-    cin >> valinta;
-    cin.ignore();
-
-    if (valinta == 2)
-    {
-        etsiVaraus();
-        return 0;
-    }
-
     while (jatka)
     {
+        int valinta = 0;
+        cout << "Valitse: 1 = Uusi varaus, 2 = Etsi varaus, 3 = Lopeta: ";
+        cin >> valinta;
+
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(10000, '\n');
+            continue;
+        }
+
+        cin.ignore();
+
+        if (valinta == 2)
+        {
+            etsiVaraus();
+            continue;
+        }
+
+        if (valinta == 3)
+        {
+            jatka = false;
+            break;
+        }
+
+        if (valinta != 1)
+            continue;
+
         /* TODO: input validatio omaan funtioon */
         cout << "\nUusi varaus" << endl;
 
@@ -194,6 +211,14 @@ int main()
 
         cout << "Huoneen tyyppi (1: yksiö, 2: kaksiö): ";
         cin >> huoneTyyppi;
+
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(10000, '\n');
+            cout << "Virhe: Valitse 1 tai 2!" << endl;
+            continue;
+        }
 
         if (huoneTyyppi < 1 || huoneTyyppi > 2)
         {
@@ -221,6 +246,14 @@ int main()
         cout << "Montako yötä: ";
         cin >> yot;
 
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(10000, '\n');
+            cout << "Vähintään 1 yö!" << endl;
+            continue;
+        }
+
         if (yot < 1)
         {
             cout << "Vähintään 1 yö!" << endl;
@@ -243,7 +276,7 @@ int main()
 
         if (!kysy_jatka())
         {
-            jatka = false;
+            break;
         }
     }
 
