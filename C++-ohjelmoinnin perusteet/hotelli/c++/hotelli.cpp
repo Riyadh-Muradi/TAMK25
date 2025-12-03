@@ -109,6 +109,27 @@ void naytaVahvistus(int varausnumero, string asiakas, int tyyppi, int huone, int
     cout << endl;
 }
 
+void varaaHuone(int huoneNumero, string nimi)
+{
+    /* Laitetaan huone varatuksi */
+    huoneet[huoneNumero - 1].varattu = true;
+    huoneet[huoneNumero - 1].asiakasNimi = nimi;
+
+    int varausnumero = arvoLuku(10000, 99999);
+    huoneet[huoneNumero - 1].varausnumero = varausnumero;
+
+    int sattuma = arvoLuku(1, 3);
+    int alennus = 0;
+    if (sattuma == 1)
+        alennus = 0;
+    else if (sattuma == 2)
+        alennus = 10;
+    else
+        alennus = 20;
+
+    huoneet[huoneNumero - 1].alennus = alennus;
+}
+
 int main()
 {
     srand(time(0));
@@ -174,14 +195,10 @@ int main()
 
         cin.ignore();
 
-        huoneet[huoneNumero - 1].varattu = true;
-        huoneet[huoneNumero - 1].asiakasNimi = nimi;
+        varaaHuone(huoneNumero, nimi);
 
-        varausnumero = arvoLuku(10000, 99999);
-        huoneet[huoneNumero - 1].varausnumero = varausnumero;
-
-        int alennus = arvoLuku(0, 2) * 10;
-        huoneet[huoneNumero - 1].alennus = alennus;
+        varausnumero = huoneet[huoneNumero - 1].varausnumero;
+        int alennus = huoneet[huoneNumero - 1].alennus;
 
         kokonaishinta = yot * hintaPerYo;
         int alennus_euroa = (kokonaishinta * alennus) / 100;
