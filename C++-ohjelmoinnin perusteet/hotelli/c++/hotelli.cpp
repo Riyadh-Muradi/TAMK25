@@ -84,6 +84,31 @@ int tarkistaHuoneTyyppi(int tyyppi)
     return hinta;
 }
 
+void naytaVahvistus(int varausnumero, string asiakas, int tyyppi, int huone, int yot, int hinta, int kokonaishinta, int alennus, int hinta_alennus)
+{
+    /* Näytetään varauksen vahvistus */
+    cout << "\nVaraus vahvistettu " << endl;
+    cout << "Varausnumero: " << varausnumero << endl;
+    cout << "Asiakas: " << asiakas << endl;
+
+    if (tyyppi == 1)
+        cout << "Huone: " << huone << " (yksiö)" << endl;
+    else
+        cout << "Huone: " << huone << " (kaksiö)" << endl;
+
+    cout << "Yöt: " << yot << endl;
+    cout << "Yön hinta: " << hinta << "€" << endl;
+    cout << "Kokonaishinta: " << kokonaishinta << "€" << endl;
+
+    if (alennus > 0)
+    {
+        cout << "Alennus: " << alennus << "%" << endl;
+        cout << "Hinta alennoksen jälkeen: " << hinta_alennus << "€" << endl;
+    }
+
+    cout << endl;
+}
+
 int main()
 {
     srand(time(0));
@@ -162,26 +187,7 @@ int main()
         int alennus_euroa = (kokonaishinta * alennus) / 100;
         int hinta_alennoksen_jalkeen = kokonaishinta - alennus_euroa;
 
-        cout << "\nVaraus vahvistettu " << endl;
-        cout << "Varausnumero: " << varausnumero << endl;
-        cout << "Asiakas: " << nimi << endl;
-
-        if (huoneTyyppi == 1)
-            cout << "Huone: " << huoneNumero << " (yksiö)" << endl;
-        else
-            cout << "Huone: " << huoneNumero << " (kaksiö)" << endl;
-
-        cout << "Yöt: " << yot << endl;
-        cout << "Yön hinta: " << hintaPerYo << "€" << endl;
-        cout << "Kokonaishinta: " << kokonaishinta << "€" << endl;
-
-        if (alennus > 0)
-        {
-            cout << "Alennus: " << alennus << "%" << endl;
-            cout << "Hinta alennoksen jälkeen: " << hinta_alennoksen_jalkeen << "€" << endl;
-        }
-
-        cout << endl;
+        naytaVahvistus(varausnumero, nimi, huoneTyyppi, huoneNumero, yot, hintaPerYo, kokonaishinta, alennus, hinta_alennoksen_jalkeen);
 
         cout << "Haluatko tehdä uuden varauksen? (k/e): ";
         string vastaus;
