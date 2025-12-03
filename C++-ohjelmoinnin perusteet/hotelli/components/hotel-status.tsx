@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-interface HotelData {
+interface HotellinData {
   huoneidenMaara: number;
   vapaanaHuoneita: number;
   varatuita: number;
@@ -11,17 +11,30 @@ interface HotelData {
   kaksioHinta: number;
 }
 
-export function HotellinTilanne() {
-  const [data, setData] = useState<HotelData | null>(null);
+export function HotellinTila() {
+  const [data, setData] = useState<HotellinData | null>(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     fetch("/api/hotelli")
       .then((res) => res.json())
-      .then(setData)
-      .catch(() => toast.error("Hotellin tietojen haku epäonnistui"));
+      .then((data) => {
+        if (!data?.huoneidenMaara) throw new Error();
+        setData(data);
+      })
+      .catch(() => {
+        setError(true);
+        toast.error("Hotellin tietojen haku ei onnistunut");
+      });
   }, []);
 
-  if (!data) return <div className="text-muted-foreground">Ladataan...</div>;
+  if (error) {
+    toast.error("Hotellin tietoja ei voitu ladata");
+    return null;
+  }
+
+  if (!data)
+    return <div className="text-muted-foreground px-2.5 pb-2">Ladataan...</div>;
 
   return (
     <div className="grid gap-4 md:grid-cols-3">

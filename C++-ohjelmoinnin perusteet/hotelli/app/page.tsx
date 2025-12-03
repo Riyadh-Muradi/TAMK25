@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { HotellinTilanne } from "@/components/hotel-status";
+import { HotellinTila } from "@/components/hotel-status";
 import { VarausLomake } from "@/components/booking-form";
 import { HakuLomake } from "@/components/search-form";
 import { useTab } from "@/components/tab-provider";
@@ -22,8 +22,8 @@ export default function Home() {
                 <div className="p-4 pb-2">
                   <h2 className="text-lg font-semibold">Hotellin tila</h2>
                 </div>
-                <div className="p-1.5">
-                  <HotellinTilanne />
+                <div className="p-1.5 pt-0">
+                  <HotellinTila />
                 </div>
               </div>
             </div>
