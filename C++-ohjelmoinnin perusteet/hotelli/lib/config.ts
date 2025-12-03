@@ -5,7 +5,12 @@ export const siteConfig = {
     "Hotelli - Lopputyö projekti. Rakennettu C++ backendillä ja Next.js frontendillä",
   author: "Diar",
   keywords: ["Hotelli", "C++", "Next.js", "TypeScript"],
-  navItems: [{ label: "Etusivu" }, { label: "Varaus" }, { label: "Haku" }],
+  navItems: [
+    { label: "Etusivu" },
+    { label: "Varaus" },
+    { label: "Haku" },
+    { label: "Rakenne" },
+  ],
   links: {
     github:
       "https://github.com/Riyadh-Muradi/TAMK25/tree/main/C%2B%2B-ohjelmoinnin%20perusteet/hotelli",

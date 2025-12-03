@@ -9,9 +9,9 @@ import { TextAlignStart, X } from "lucide-react";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 
 type NavItem = { label: string };
-type TabType = "yleiskatsaus" | "varaus" | "haku";
+type TabType = "yleiskatsaus" | "varaus" | "haku" | "rakenne";
 
-const TAB_ORDER: TabType[] = ["yleiskatsaus", "varaus", "haku"];
+const TAB_ORDER: TabType[] = ["yleiskatsaus", "varaus", "haku", "rakenne"];
 
 export default function MobileNav({
   items,

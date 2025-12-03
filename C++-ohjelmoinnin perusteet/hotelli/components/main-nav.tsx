@@ -4,9 +4,9 @@ import { useTab } from "@/components/tab-provider";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
-type TabType = "yleiskatsaus" | "varaus" | "haku";
+type TabType = "yleiskatsaus" | "varaus" | "haku" | "rakenne";
 
-const TAB_ORDER: TabType[] = ["yleiskatsaus", "varaus", "haku"];
+const TAB_ORDER: TabType[] = ["yleiskatsaus", "varaus", "haku", "rakenne"];
 
 export function MainNav({
   items,

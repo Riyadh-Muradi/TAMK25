@@ -148,7 +148,43 @@ void etsiVaraus()
     /* Etsitään olemassa olevia varauksia */
     cout << "\nEtsi varaus" << endl;
     cout << "Anna asiakkaan nimi: ";
-    /* TODO: lisää tähän se */
+
+    string hakuNimi;
+    getline(cin, hakuNimi);
+
+    if (hakuNimi.empty())
+    {
+        cout << "Nimi ei saa olla tyhjä!" << endl;
+        return;
+    }
+
+    bool loytyi = false;
+
+    for (int i = 0; i < huoneidenMaara; i++)
+    {
+        if (huoneet[i].varattu && huoneet[i].asiakasNimi == hakuNimi)
+        {
+            loytyi = true;
+
+            cout << "\nVaraus löytyi:" << endl;
+            cout << "Varausnumero: " << huoneet[i].varausnumero << endl;
+            cout << "Asiakas: " << huoneet[i].asiakasNimi << endl;
+            cout << "Huone: " << huoneet[i].numero;
+
+            if (huoneet[i].tyyppi == 1)
+                cout << " (yksiö)" << endl;
+            else
+                cout << " (kaksiö)" << endl;
+
+            cout << "Alennus: " << huoneet[i].alennus << "%" << endl;
+            cout << endl;
+        }
+    }
+
+    if (!loytyi)
+    {
+        cout << "Varausta ei löytynyt nimellä: " << hakuNimi << endl;
+    }
 }
 
 int main()

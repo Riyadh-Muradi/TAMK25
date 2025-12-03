@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState } from "react";
 
-type TabType = "yleiskatsaus" | "varaus" | "haku";
+type TabType = "yleiskatsaus" | "varaus" | "haku" | "rakenne";
 
 interface TabContextType {
   activeTab: TabType;

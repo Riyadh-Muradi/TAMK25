@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import Image from "next/image";
 import { HotellinTilanne } from "@/components/hotel-status";
 import { VarausLomake } from "@/components/booking-form";
 import { HakuLomake } from "@/components/search-form";
@@ -7,6 +9,7 @@ import { useTab } from "@/components/tab-provider";
 
 export default function Home() {
   const { activeTab } = useTab();
+  const [isZoomed, setIsZoomed] = useState(false);
 
   return (
     <main className="h-full w-full">
@@ -64,6 +67,43 @@ export default function Home() {
                       Etsi nimellä
                     </h4>
                     <p>Kirjoita asiakkaan nimi löytääksesi varauksen</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "rakenne" && (
+            <div className="space-y-4">
+              <div className="bg-surface overflow-hidden rounded-4xl p-1.5">
+                <div className="mb-4">
+                  <h2 className="p-4 pb-2 text-lg font-semibold">
+                    Ohjelman rakenne
+                  </h2>
+                  <p className="text-muted-foreground px-4 pb-2 text-sm">
+                    Hotellivarausohjelman prosessivirta ja päätöksentekopuut
+                  </p>
+                  <p className="text-muted-foreground px-4 pb-2 text-xs">
+                    Klikkaa kaaviota niin voit zoomaa
+                  </p>
+                </div>
+                <div
+                  className="relative flex h-screen w-full cursor-pointer items-center justify-center overflow-auto transition-all duration-300"
+                  onClick={() => setIsZoomed(!isZoomed)}
+                >
+                  <div
+                    className={`inline-block transition-transform duration-300 ${
+                      isZoomed ? "scale-200" : "scale-100"
+                    }`}
+                  >
+                    <Image
+                      src="/flowchart.png"
+                      alt="Hotellivarausohjelman rakenne"
+                      width={1400}
+                      height={1000}
+                      className="h-auto w-full"
+                      priority
+                    />
                   </div>
                 </div>
               </div>
