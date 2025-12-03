@@ -16,16 +16,16 @@ const int KAKSIO_HINTA = 150;
 struct Huone
 {
     int numero;
-    int tyyppi; /* 1 = yksio, 2 = kaksio */
+    int tyyppi;
     bool varattu;
     string asiakasNimi;
+    int varausnumero;
 };
 
 Huone huoneet[MAX_HUONEITA];
 int huoneidenMaara = 0;
 int hintaPerYo = 0;
 
-/* arvotaan satunnainen luku min-max väliltä */
 int arvoLuku(int min, int max)
 {
     return min + rand() % (max - min + 1);
@@ -33,7 +33,6 @@ int arvoLuku(int min, int max)
 
 void alustaHotelli()
 {
-    /* arvotaan huoneiden määrä (parillinen) */
     huoneidenMaara = arvoLuku(MIN_HUONEITA, 70);
     if (huoneidenMaara % 2 != 0)
         huoneidenMaara--;
@@ -45,11 +44,12 @@ void alustaHotelli()
         huoneet[i].numero = i + 1;
         huoneet[i].varattu = false;
         huoneet[i].asiakasNimi = "";
+        huoneet[i].varausnumero = 0;
 
         if (i < puolikas)
-            huoneet[i].tyyppi = 1; /* yksio */
+            huoneet[i].tyyppi = 1;
         else
-            huoneet[i].tyyppi = 2; /* kaksio */
+            huoneet[i].tyyppi = 2;
     }
 
     cout << "Hotelli alustettu" << endl;
@@ -58,7 +58,6 @@ void alustaHotelli()
     cout << endl;
 }
 
-/* tarkistaa onko huone varattu */
 bool onkoHuoneVarattu(int huoneNro)
 {
     if (huoneNro < 1 || huoneNro > huoneidenMaara)
@@ -68,7 +67,6 @@ bool onkoHuoneVarattu(int huoneNro)
     return huoneet[huoneNro - 1].varattu;
 }
 
-/* arpoo vapaan huoneen automaattisesti tyypin perusteella */
 int arpoVapaanHuoneen(int tyyppi)
 {
     for (int i = 0; i < huoneidenMaara; i++)
@@ -93,6 +91,7 @@ int main()
     int kokonaishinta;
     int huoneTyyppi;
     int hintaPerYo;
+    int varausnumero;
     bool jatka = true;
 
     while (jatka)
@@ -152,9 +151,13 @@ int main()
         huoneet[huoneNumero - 1].varattu = true;
         huoneet[huoneNumero - 1].asiakasNimi = nimi;
 
+        varausnumero = arvoLuku(10000, 99999);
+        huoneet[huoneNumero - 1].varausnumero = varausnumero;
+
         kokonaishinta = yot * hintaPerYo;
 
         cout << "\nVaraus vahvistettu! " << endl;
+        cout << "Varausnumero: " << varausnumero << endl;
         cout << "Asiakas: " << nimi << endl;
 
         if (huoneTyyppi == 1)
