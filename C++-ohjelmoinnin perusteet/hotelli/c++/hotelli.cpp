@@ -84,6 +84,28 @@ int tarkistaHuoneTyyppi(int tyyppi)
     return hinta;
 }
 
+void varaaHuone(int huoneNumero, string nimi)
+{
+    /* Laitetaan huone varatuksi */
+    huoneet[huoneNumero - 1].varattu = true;
+    huoneet[huoneNumero - 1].asiakasNimi = nimi;
+
+    int varausnumero = arvoLuku(10000, 99999);
+    huoneet[huoneNumero - 1].varausnumero = varausnumero;
+
+    int sattuma = arvoLuku(1, 3);
+    int alennus = 0;
+
+    if (sattuma == 1)
+        alennus = 0;
+    else if (sattuma == 2)
+        alennus = 10;
+    else
+        alennus = 20;
+
+    huoneet[huoneNumero - 1].alennus = alennus;
+}
+
 void naytaVahvistus(int varausnumero, string asiakas, int tyyppi, int huone, int yot, int hinta, int kokonaishinta, int alennus, int hinta_alennus)
 {
     /* Näytetään varauksen vahvistus */
@@ -109,25 +131,12 @@ void naytaVahvistus(int varausnumero, string asiakas, int tyyppi, int huone, int
     cout << endl;
 }
 
-void varaaHuone(int huoneNumero, string nimi)
+void etsiVaraus()
 {
-    /* Laitetaan huone varatuksi */
-    huoneet[huoneNumero - 1].varattu = true;
-    huoneet[huoneNumero - 1].asiakasNimi = nimi;
-
-    int varausnumero = arvoLuku(10000, 99999);
-    huoneet[huoneNumero - 1].varausnumero = varausnumero;
-
-    int sattuma = arvoLuku(1, 3);
-    int alennus = 0;
-    if (sattuma == 1)
-        alennus = 0;
-    else if (sattuma == 2)
-        alennus = 10;
-    else
-        alennus = 20;
-
-    huoneet[huoneNumero - 1].alennus = alennus;
+    /* Etsitään olemassa olevia varauksia */
+    cout << "\nEtsi varaus" << endl;
+    cout << "Anna asiakkaan nimi: ";
+    /* TODO: lisää tähän se */
 }
 
 int main()
@@ -137,6 +146,7 @@ int main()
     alustaHotelli();
 
     string nimi;
+    /* TODO: optimoi tää silleen kaikki on yhen alla */
     int huoneNumero;
     int yot;
     int kokonaishinta;
@@ -145,8 +155,20 @@ int main()
     int varausnumero;
     bool jatka = true;
 
+    int valinta = 0;
+    cout << "Valitse: 1 = Uusi varaus, 2 = Etsi varaus: ";
+    cin >> valinta;
+    cin.ignore();
+
+    if (valinta == 2)
+    {
+        etsiVaraus();
+        return 0;
+    }
+
     while (jatka)
     {
+        /* TODO: input validatio omaan funtioon */
         cout << "\nUusi varaus" << endl;
 
         cout << "Anna nimesi: ";
@@ -200,6 +222,7 @@ int main()
         varausnumero = huoneet[huoneNumero - 1].varausnumero;
         int alennus = huoneet[huoneNumero - 1].alennus;
 
+        /* TODO: Omaan funtioon?? */
         kokonaishinta = yot * hintaPerYo;
         int alennus_euroa = (kokonaishinta * alennus) / 100;
         int hinta_alennoksen_jalkeen = kokonaishinta - alennus_euroa;
