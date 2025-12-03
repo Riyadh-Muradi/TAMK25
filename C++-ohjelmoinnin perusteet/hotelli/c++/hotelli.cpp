@@ -25,7 +25,6 @@ struct Huone
 
 Huone huoneet[MAX_HUONEITA];
 int huoneidenMaara = 0;
-int hintaPerYo = 0;
 
 int arvoLuku(int min, int max)
 {
@@ -74,6 +73,17 @@ int arpoVapaanHuoneen(int tyyppi)
     return vapaa;
 }
 
+int tarkistaHuoneTyyppi(int tyyppi)
+{
+    /* Tarkistetaan huonetyyppi ja palautetaan hinta */
+    int hinta = 0;
+    if (tyyppi == 1)
+        hinta = YKSIO_HINTA;
+    else
+        hinta = KAKSIO_HINTA;
+    return hinta;
+}
+
 int main()
 {
     srand(time(0));
@@ -115,16 +125,13 @@ int main()
 
         cin.ignore();
 
-        if (huoneTyyppi == 1)
-            hintaPerYo = YKSIO_HINTA;
-        else
-            hintaPerYo = KAKSIO_HINTA;
+        hintaPerYo = tarkistaHuoneTyyppi(huoneTyyppi);
 
         huoneNumero = arpoVapaanHuoneen(huoneTyyppi);
 
         if (huoneNumero == -1)
         {
-            cout << "Valitettavasti kaikki huoneet ovat varattuja!" << endl;
+            cout << "Kaikki huoneet varattuja!" << endl;
             jatka = false;
             break;
         }
