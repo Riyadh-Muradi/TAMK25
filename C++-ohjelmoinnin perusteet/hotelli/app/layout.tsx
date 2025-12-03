@@ -9,6 +9,7 @@ import { TabProvider } from "@/components/tab-provider";
 import "@/styles/globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: {
@@ -85,6 +86,7 @@ export default function RootLayout({
               <SiteHeader />
               {children}
               <SiteFooter />
+              <Toaster />
             </ActiveThemeProvider>
           </ThemeProvider>
         </TabProvider>

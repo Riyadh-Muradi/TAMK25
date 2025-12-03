@@ -2,6 +2,7 @@
 #include <string>
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
 
 using namespace std;
 
@@ -31,6 +32,8 @@ int arvoLuku(int min, int max)
     return min + rand() % (max - min + 1);
 }
 
+void tallennaJSON();
+
 void alustaHotelli()
 {
     huoneidenMaara = arvoLuku(MIN_HUONEITA, 70);
@@ -57,6 +60,50 @@ void alustaHotelli()
     cout << "Huoneita yhteensä: " << huoneidenMaara << " (" << puolikas << " yksiö + " << puolikas << " kaksiö)" << endl;
     cout << "Yksiö: " << YKSIO_HINTA << "€, Kaksiö: " << KAKSIO_HINTA << "€" << endl;
     cout << endl;
+
+    tallennaJSON();
+}
+
+void tallennaJSON()
+{
+    ofstream jsonFile("data.json");
+
+    int vapaanaHuoneita = 0;
+    int varatuita = 0;
+
+    for (int i = 0; i < huoneidenMaara; i++)
+    {
+        if (!huoneet[i].varattu)
+            vapaanaHuoneita++;
+        else
+            varatuita++;
+    }
+
+    /* TODO: Formattaa JSON sillee että se on clean */
+    jsonFile << "{"
+             << "\"huoneidenMaara\":" << huoneidenMaara << ","
+             << "\"vapaanaHuoneita\":" << vapaanaHuoneita << ","
+             << "\"varatuita\":" << varatuita << ","
+             << "\"yksioHinta\":" << YKSIO_HINTA << ","
+             << "\"kaksioHinta\":" << KAKSIO_HINTA << ","
+             << "\"huoneet\":[";
+
+    for (int i = 0; i < huoneidenMaara; i++)
+    {
+        jsonFile << "{"
+                 << "\"numero\":" << huoneet[i].numero << ","
+                 << "\"tyyppi\":" << huoneet[i].tyyppi << ","
+                 << "\"varattu\":" << (huoneet[i].varattu ? "true" : "false") << ","
+                 << "\"asiakas\":\"" << huoneet[i].asiakasNimi << "\","
+                 << "\"varausNumero\":" << huoneet[i].varausnumero << ","
+                 << "\"alennus\":" << huoneet[i].alennus
+                 << "}";
+        if (i < huoneidenMaara - 1)
+            jsonFile << ",";
+    }
+
+    jsonFile << "]}";
+    jsonFile.close();
 }
 
 int arpoVapaanHuoneen(int tyyppi)
@@ -104,6 +151,9 @@ void varaaHuone(int huoneNumero, string nimi)
         alennus = 20;
 
     huoneet[huoneNumero - 1].alennus = alennus;
+
+    /* päivitää JSON tiedostoo */
+    tallennaJSON();
 }
 
 void naytaVahvistus(int varausnumero, string asiakas, int tyyppi, int huone, int yot, int hinta, int kokonaishinta, int alennus, int hinta_alennus)

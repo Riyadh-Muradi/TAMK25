@@ -13,14 +13,12 @@ export function VarausLomake() {
 
   function teeVaraus(e: React.FormEvent) {
     e.preventDefault();
-    /* Tarkistetaan syötteet ja tehdään varaus */
+    /* TODO: Liitä /api/varaus reitille */
     setNaytaVahvistus(true);
   }
 
   if (naytaVahvistus) {
-    /* Lasketaan hinta */
-    const hintaYolta = 100;
-    const loppuhinta = hintaYolta * parseInt(yot);
+    const hinta = 100 * parseInt(yot);
 
     return (
       <div className="group bg-background ring-border/25 relative flex flex-col overflow-hidden rounded-3xl shadow-xs ring-1 outline-none">
@@ -33,7 +31,7 @@ export function VarausLomake() {
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
               <span className="text-foreground font-semibold">Asiakas:</span>
-              <p className="text-lg">{nimi || "Asiakas"}</p>
+              <p className="text-lg">{nimi}</p>
             </div>
             <div>
               <span className="text-foreground font-semibold">Huone:</span>
@@ -43,9 +41,9 @@ export function VarausLomake() {
               <span className="text-foreground font-semibold">Yöt:</span>
               <p>{yot}</p>
             </div>
-            <div className="bg-accent/15 col-span-2 rounded">
-              <span className="text-foreground font-semibold">Hinta: </span>
-              <span className="text-md font-bold">{loppuhinta}€</span>
+            <div>
+              <span className="text-foreground font-semibold">Hinta:</span>
+              <span className="text-md font-bold">{hinta}€</span>
             </div>
           </div>
           <Button onClick={() => setNaytaVahvistus(false)} className="w-full">

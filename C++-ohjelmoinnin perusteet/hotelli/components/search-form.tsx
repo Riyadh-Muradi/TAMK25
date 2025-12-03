@@ -7,11 +7,10 @@ import { Label } from "@/components/ui/label";
 export function HakuLomake() {
   function kasitteleHaku(e: React.FormEvent) {
     e.preventDefault();
-    /* Tää vaa estää sivun reloadauksen */
+    /* TODO: Liitä /api/haku reitille */
   }
 
-  /* Esimerkkitulokset näytetään suoraan */
-  const esimerkkiTulokset = [{ numero: 5, nimi: "Riyadh Muradi" }];
+  const esimerkkiTulokset = [{ huone: 5, nimi: "Riyadh Muradi" }];
 
   return (
     <div className="group bg-background ring-border/25 relative flex flex-col overflow-hidden rounded-3xl shadow-xs ring-1 outline-none">
@@ -36,12 +35,12 @@ export function HakuLomake() {
           <div className="space-y-2">
             {esimerkkiTulokset.map((huone) => (
               <div
-                key={huone.numero}
+                key={huone.huone}
                 className="bg-accent/10 border-border/50 flex justify-between rounded-xl border px-4 py-2"
               >
                 <div>
                   <p className="text-foreground font-semibold">
-                    Huone {huone.numero}
+                    Huone {huone.huone}
                   </p>
                 </div>
                 <div className="text-right">
