@@ -20,6 +20,7 @@ struct Huone
     bool varattu;
     string asiakasNimi;
     int varausnumero;
+    int alennus;
 };
 
 Huone huoneet[MAX_HUONEITA];
@@ -45,6 +46,7 @@ void alustaHotelli()
         huoneet[i].varattu = false;
         huoneet[i].asiakasNimi = "";
         huoneet[i].varausnumero = 0;
+        huoneet[i].alennus = 0;
 
         if (i < puolikas)
             huoneet[i].tyyppi = 1;
@@ -53,30 +55,23 @@ void alustaHotelli()
     }
 
     cout << "Hotelli alustettu" << endl;
-    cout << "Huoneita yhteensä: " << huoneidenMaara << " (" << puolikas << " yksio + " << puolikas << " kaksio)" << endl;
-    cout << "Yksio: " << YKSIO_HINTA << "€, Kaksio: " << KAKSIO_HINTA << "€" << endl;
+    cout << "Huoneita yhteensä: " << huoneidenMaara << " (" << puolikas << " yksiö + " << puolikas << " kaksiö)" << endl;
+    cout << "Yksiö: " << YKSIO_HINTA << "€, Kaksiö: " << KAKSIO_HINTA << "€" << endl;
     cout << endl;
-}
-
-bool onkoHuoneVarattu(int huoneNro)
-{
-    if (huoneNro < 1 || huoneNro > huoneidenMaara)
-    {
-        return false;
-    }
-    return huoneet[huoneNro - 1].varattu;
 }
 
 int arpoVapaanHuoneen(int tyyppi)
 {
+    int vapaa = -1;
     for (int i = 0; i < huoneidenMaara; i++)
     {
         if (!huoneet[i].varattu && huoneet[i].tyyppi == tyyppi)
         {
-            return huoneet[i].numero;
+            vapaa = huoneet[i].numero;
+            break;
         }
     }
-    return -1;
+    return vapaa;
 }
 
 int main()
@@ -107,7 +102,7 @@ int main()
             continue;
         }
 
-        cout << "Huoneen tyyppi (1=yksiö, 2=kaksiö): ";
+        cout << "Huoneen tyyppi (1: yksiö, 2: kaksiö): ";
         cin >> huoneTyyppi;
 
         if (huoneTyyppi < 1 || huoneTyyppi > 2)
@@ -137,12 +132,11 @@ int main()
         cout << "Sinulle arpoi huone numero: " << huoneNumero << endl;
 
         cout << "Montako yötä: ";
+        cin >> yot;
 
-        if (!(cin >> yot) || yot < 1)
+        if (yot < 1)
         {
-            cout << "Virhe: Syötä kelvollinen luku (vähintään 1)!" << endl;
-            cin.clear();
-            cin.ignore(10000, '\n');
+            cout << "Vähintään 1 yö!" << endl;
             continue;
         }
 
@@ -154,20 +148,32 @@ int main()
         varausnumero = arvoLuku(10000, 99999);
         huoneet[huoneNumero - 1].varausnumero = varausnumero;
 
-        kokonaishinta = yot * hintaPerYo;
+        int alennus = arvoLuku(0, 2) * 10;
+        huoneet[huoneNumero - 1].alennus = alennus;
 
-        cout << "\nVaraus vahvistettu! " << endl;
+        kokonaishinta = yot * hintaPerYo;
+        int alennus_euroa = (kokonaishinta * alennus) / 100;
+        int hinta_alennoksen_jalkeen = kokonaishinta - alennus_euroa;
+
+        cout << "\nVaraus vahvistettu " << endl;
         cout << "Varausnumero: " << varausnumero << endl;
         cout << "Asiakas: " << nimi << endl;
 
         if (huoneTyyppi == 1)
-            cout << "Huone: " << huoneNumero << " (yksio)" << endl;
+            cout << "Huone: " << huoneNumero << " (yksiö)" << endl;
         else
-            cout << "Huone: " << huoneNumero << " (kaksio)" << endl;
+            cout << "Huone: " << huoneNumero << " (kaksiö)" << endl;
 
         cout << "Yöt: " << yot << endl;
         cout << "Yön hinta: " << hintaPerYo << "€" << endl;
         cout << "Kokonaishinta: " << kokonaishinta << "€" << endl;
+
+        if (alennus > 0)
+        {
+            cout << "Alennus: " << alennus << "%" << endl;
+            cout << "Hinta alennoksen jälkeen: " << hinta_alennoksen_jalkeen << "€" << endl;
+        }
+
         cout << endl;
 
         cout << "Haluatko tehdä uuden varauksen? (k/e): ";
@@ -180,6 +186,6 @@ int main()
         }
     }
 
-    cout << "\nKiitos, näkemiin!" << endl;
+    cout << "\nKiitos, näkemiin" << endl;
     return 0;
 }
