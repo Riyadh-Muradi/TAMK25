@@ -131,6 +131,18 @@ void naytaVahvistus(int varausnumero, string asiakas, int tyyppi, int huone, int
     cout << endl;
 }
 
+bool kysy_jatka()
+{
+    /* Kysytään käyttäjältä jatkaa vai ei */
+    cout << "Haluatko tehdä uuden varauksen? (k/e): ";
+    string vastaus;
+    getline(cin, vastaus);
+    
+    if (vastaus == "k" || vastaus == "K")
+        return true;
+    return false;
+}
+
 void etsiVaraus()
 {
     /* Etsitään olemassa olevia varauksia */
@@ -229,11 +241,7 @@ int main()
 
         naytaVahvistus(varausnumero, nimi, huoneTyyppi, huoneNumero, yot, hintaPerYo, kokonaishinta, alennus, hinta_alennoksen_jalkeen);
 
-        cout << "Haluatko tehdä uuden varauksen? (k/e): ";
-        string vastaus;
-        getline(cin, vastaus);
-
-        if (vastaus != "k" && vastaus != "K")
+        if (!kysy_jatka())
         {
             jatka = false;
         }
