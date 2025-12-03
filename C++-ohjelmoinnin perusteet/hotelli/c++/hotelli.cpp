@@ -9,13 +9,14 @@ using namespace std;
 /* Hotellivarausohjelma - Lopputyö */
 
 const int MAX_HUONEITA = 300;
-const int MIN_HUONEITA = 30;
-const int MAX_HINTA = 100;
-const int MIN_HINTA = 80;
+const int MIN_HUONEITA = 40;
+const int YKSIO_HINTA = 100;
+const int KAKSIO_HINTA = 150;
 
 struct Huone
 {
     int numero;
+    int tyyppi; /* 1 = yksio, 2 = kaksio */
     bool varattu;
     string asiakasNimi;
 };
@@ -32,20 +33,28 @@ int arvoLuku(int min, int max)
 
 void alustaHotelli()
 {
-    /* arvotaan huoneiden määrä ja hinta */
+    /* arvotaan huoneiden määrä (parillinen) */
     huoneidenMaara = arvoLuku(MIN_HUONEITA, 70);
-    hintaPerYo = arvoLuku(MIN_HINTA, MAX_HINTA);
+    if (huoneidenMaara % 2 != 0)
+        huoneidenMaara--;
+
+    int puolikas = huoneidenMaara / 2;
 
     for (int i = 0; i < huoneidenMaara; i++)
     {
         huoneet[i].numero = i + 1;
         huoneet[i].varattu = false;
         huoneet[i].asiakasNimi = "";
+
+        if (i < puolikas)
+            huoneet[i].tyyppi = 1; /* yksio */
+        else
+            huoneet[i].tyyppi = 2; /* kaksio */
     }
 
     cout << "Hotelli alustettu" << endl;
-    cout << "Huoneita yhteensä: " << huoneidenMaara << endl;
-    cout << "Hinta per yö: " << hintaPerYo << "€" << endl;
+    cout << "Huoneita yhteensä: " << huoneidenMaara << " (" << puolikas << " yksio + " << puolikas << " kaksio)" << endl;
+    cout << "Yksio: " << YKSIO_HINTA << "€, Kaksio: " << KAKSIO_HINTA << "€" << endl;
     cout << endl;
 }
 
@@ -59,31 +68,16 @@ bool onkoHuoneVarattu(int huoneNro)
     return huoneet[huoneNro - 1].varattu;
 }
 
-/* arpoo vapaan huoneen automaattisesti */
-int arpoVapaanHuoneen()
+/* arpoo vapaan huoneen automaattisesti tyypin perusteella */
+int arpoVapaanHuoneen(int tyyppi)
 {
-    int yrityste = 0;
-    int maxYritykset = huoneidenMaara * 2;
-
-    while (yrityste < maxYritykset)
-    {
-        int satunnainenHuone = arvoLuku(1, huoneidenMaara);
-        if (!onkoHuoneVarattu(satunnainenHuone))
-        {
-            return satunnainenHuone;
-        }
-        yrityste++;
-    }
-
-    /* jos arpominen ei toimi, etsitään vaan suoraan */
     for (int i = 0; i < huoneidenMaara; i++)
     {
-        if (!huoneet[i].varattu)
+        if (!huoneet[i].varattu && huoneet[i].tyyppi == tyyppi)
         {
             return huoneet[i].numero;
         }
     }
-
     return -1;
 }
 
@@ -97,6 +91,8 @@ int main()
     int huoneNumero;
     int yot;
     int kokonaishinta;
+    int huoneTyyppi;
+    int hintaPerYo;
     bool jatka = true;
 
     while (jatka)
@@ -112,7 +108,25 @@ int main()
             continue;
         }
 
-        huoneNumero = arpoVapaanHuoneen();
+        cout << "Huoneen tyyppi (1=yksiö, 2=kaksiö): ";
+        cin >> huoneTyyppi;
+
+        if (huoneTyyppi < 1 || huoneTyyppi > 2)
+        {
+            cout << "Virhe: Valitse 1 tai 2!" << endl;
+            cin.clear();
+            cin.ignore(10000, '\n');
+            continue;
+        }
+
+        cin.ignore();
+
+        if (huoneTyyppi == 1)
+            hintaPerYo = YKSIO_HINTA;
+        else
+            hintaPerYo = KAKSIO_HINTA;
+
+        huoneNumero = arpoVapaanHuoneen(huoneTyyppi);
 
         if (huoneNumero == -1)
         {
@@ -142,7 +156,12 @@ int main()
 
         cout << "\nVaraus vahvistettu! " << endl;
         cout << "Asiakas: " << nimi << endl;
-        cout << "Huone: " << huoneNumero << endl;
+
+        if (huoneTyyppi == 1)
+            cout << "Huone: " << huoneNumero << " (yksio)" << endl;
+        else
+            cout << "Huone: " << huoneNumero << " (kaksio)" << endl;
+
         cout << "Yöt: " << yot << endl;
         cout << "Yön hinta: " << hintaPerYo << "€" << endl;
         cout << "Kokonaishinta: " << kokonaishinta << "€" << endl;
