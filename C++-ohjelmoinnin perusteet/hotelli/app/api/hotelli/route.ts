@@ -4,7 +4,7 @@ import path from "path";
 
 export async function GET() {
   try {
-    /* Luetaan hotellin tiedot JSON tiedostosta */
+    /* Luetaan hotellin tiedot json tiedostosta */
     const dataPath = path.join(process.cwd(), "c++", "data.json");
     const jsonData = readFileSync(dataPath, "utf-8");
     const data = JSON.parse(jsonData);

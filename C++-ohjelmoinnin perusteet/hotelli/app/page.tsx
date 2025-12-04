@@ -41,13 +41,14 @@ export default function Home() {
                     <h4 className="text-foreground mb-2 font-semibold">
                       Hinta
                     </h4>
-                    <p>100€ per yö</p>
+                    <p>Yksiö: 100€/yö</p>
+                    <p>Kaksiö: 150€/yö</p>
                   </div>
                   <div>
                     <h4 className="text-foreground mb-2 font-semibold">
                       Huoneet
                     </h4>
-                    <p>Valitse huone numerolla 1-50</p>
+                    <p>Valitse huone vapaista vaihtoehdoista</p>
                   </div>
                 </div>
               </div>

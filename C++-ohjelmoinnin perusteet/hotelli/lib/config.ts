@@ -1,8 +1,7 @@
 export const siteConfig = {
   name: "Hotelli",
   url: "https://github.com/Riyadh-Muradi/TAMK25",
-  description:
-    "Hotelli - Lopputyö projekti. Rakennettu C++ backendillä ja Next.js frontendillä",
+  description: "Hotelli - Lopputyö projekti. Rakennettu C++:lla ja Next.js:llä",
   author: "Diar",
   keywords: ["Hotelli", "C++", "Next.js", "TypeScript"],
   navItems: [

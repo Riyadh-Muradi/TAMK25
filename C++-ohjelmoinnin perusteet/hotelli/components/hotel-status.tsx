@@ -2,14 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-
-interface HotellinData {
-  huoneidenMaara: number;
-  vapaanaHuoneita: number;
-  varatuita: number;
-  yksioHinta: number;
-  kaksioHinta: number;
-}
+import { HotellinData } from "@/lib/types";
 
 export function HotellinTila() {
   const [data, setData] = useState<HotellinData | null>(null);

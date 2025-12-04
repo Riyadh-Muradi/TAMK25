@@ -1,58 +1,66 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { toast } from "sonner";
+import { HuoneenData, HotellinData } from "@/lib/types";
 
 export function VarausLomake() {
-  const [naytaVahvistus, setNaytaVahvistus] = useState(false);
   const [nimi, setNimi] = useState("");
-  const [huoneNumero, setHuoneNumero] = useState("1");
+  const [huoneNumero, setHuoneNumero] = useState("");
   const [yot, setYot] = useState("1");
+  const [vapaatHuoneet, setVapaatHuoneet] = useState<HuoneenData[]>([]);
+
+  useEffect(() => {
+    fetch("/api/hotelli")
+      .then((res) => res.json())
+      .then((data: HotellinData) => {
+        const vapaat = data.huoneet.filter((h) => !h.varattu);
+        setVapaatHuoneet(vapaat);
+        if (vapaat.length > 0) {
+          setHuoneNumero(vapaat[0].numero.toString());
+        }
+      })
+      .catch(() => {
+        toast.error("Virhe");
+      });
+  }, []);
 
   function teeVaraus(e: React.FormEvent) {
     e.preventDefault();
-    /* TODO: Liitä /api/varaus reitille */
-    setNaytaVahvistus(true);
+
+    fetch("/api/varaus", {
+      method: "POST",
+      body: JSON.stringify({
+        nimi: nimi,
+        huoneNumero: parseInt(huoneNumero),
+        yot: parseInt(yot),
+      }),
+    })
+      .then((res) => res.json())
+      .then(() => {
+        toast.success("Varaus tehty!");
+        setNimi("");
+        setYot("1");
+      })
+      .catch(() => {
+        toast.error("Virhe");
+      });
   }
 
-  if (naytaVahvistus) {
-    const hinta = 100 * parseInt(yot);
-
-    return (
-      <div className="group bg-background ring-border/25 relative flex flex-col overflow-hidden rounded-3xl shadow-xs ring-1 outline-none">
-        <div className="border-border/50 border-b p-4 pb-2">
-          <h2 className="text-accent text-sm font-medium">
-            Varaus vahvistettu!
-          </h2>
-        </div>
-        <div className="space-y-4 p-4 pt-2">
-          <div className="grid grid-cols-2 gap-4 text-sm">
-            <div>
-              <span className="text-foreground font-semibold">Asiakas:</span>
-              <p className="text-lg">{nimi}</p>
-            </div>
-            <div>
-              <span className="text-foreground font-semibold">Huone:</span>
-              <p className="text-lg">{huoneNumero}</p>
-            </div>
-            <div>
-              <span className="text-foreground font-semibold">Yöt:</span>
-              <p>{yot}</p>
-            </div>
-            <div>
-              <span className="text-foreground font-semibold">Hinta:</span>
-              <span className="text-md font-bold">{hinta}€</span>
-            </div>
-          </div>
-          <Button onClick={() => setNaytaVahvistus(false)} className="w-full">
-            Uusi varaus
-          </Button>
-        </div>
-      </div>
-    );
-  }
+  const valittuHuone = vapaatHuoneet.find(
+    (h) => h.numero === parseInt(huoneNumero),
+  );
+  const hinta = valittuHuone ? (valittuHuone.tyyppi === 1 ? 100 : 150) : 100;
 
   return (
     <div className="group bg-background ring-border/25 relative flex flex-col overflow-hidden rounded-3xl shadow-xs ring-1 outline-none">
@@ -73,16 +81,19 @@ export function VarausLomake() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="huoneNumero">Huoneen numero (1-50)</Label>
-            <Input
-              id="huoneNumero"
-              type="number"
-              min="1"
-              max="50"
-              value={huoneNumero}
-              onChange={(e) => setHuoneNumero(e.target.value)}
-              required
-            />
+            <Label htmlFor="huoneNumero">Huoneen numero</Label>
+            <Select value={huoneNumero} onValueChange={setHuoneNumero}>
+              <SelectTrigger id="huoneNumero" className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {vapaatHuoneet.map((h) => (
+                  <SelectItem key={h.numero} value={h.numero.toString()}>
+                    Huone {h.numero} ({h.tyyppi === 1 ? "yksiö" : "kaksiö"})
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="space-y-2">
@@ -95,11 +106,11 @@ export function VarausLomake() {
               onChange={(e) => setYot(e.target.value)}
               required
             />
-            <p className="text-muted-foreground text-xs">100€/yö</p>
+            <p className="text-muted-foreground text-xs">{hinta}€/yö</p>
           </div>
 
           <Button type="submit" className="w-full">
-            Vahvista varaus
+            Varaa
           </Button>
         </form>
       </div>
