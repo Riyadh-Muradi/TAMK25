@@ -36,10 +36,12 @@ void tallennaJSON();
 
 void alustaHotelli()
 {
+    /* Arvotaan huoneiden määrä ja varmistetaan että se on parillinen */
     huoneidenMaara = arvoLuku(MIN_HUONEITA, 70);
     if (huoneidenMaara % 2 != 0)
         huoneidenMaara--;
 
+    /* Jaetaan huoneet puoliksi: ensimmäiset yksiöt, loput kaksiöt */
     int puolikas = huoneidenMaara / 2;
 
     for (int i = 0; i < huoneidenMaara; i++)
@@ -50,6 +52,7 @@ void alustaHotelli()
         huoneet[i].varausnumero = 0;
         huoneet[i].alennus = 0;
 
+        /* Ensimmäinen puoli saa tyypin 1 (yksiö), toinen puoli tyypin 2 (kaksiö) */
         if (i < puolikas)
             huoneet[i].tyyppi = 1;
         else
@@ -58,7 +61,7 @@ void alustaHotelli()
 
     cout << "Hotelli alustettu" << endl;
     cout << "Huoneita yhteensä: " << huoneidenMaara << " (" << puolikas << " yksiö + " << puolikas << " kaksiö)" << endl;
-    cout << "Yksiö: " << YKSIO_HINTA << "€, Kaksiö: " << KAKSIO_HINTA << "€" << endl;
+    cout << "Hinnat - Yksiö: " << YKSIO_HINTA << "€, Kaksiö: " << KAKSIO_HINTA << "€" << endl;
     cout << endl;
 
     tallennaJSON();
@@ -68,8 +71,7 @@ void tallennaJSON()
 {
     ofstream jsonFile("data.json");
 
-    int vapaanaHuoneita = 0;
-    int varatuita = 0;
+    int vapaanaHuoneita = 0, varatuita = 0;
 
     for (int i = 0; i < huoneidenMaara; i++)
     {
@@ -79,7 +81,7 @@ void tallennaJSON()
             varatuita++;
     }
 
-    /* TODO: Formattaa JSON sillee että se on clean */
+    /* TODO: formattaa json sillee että se on clean */
     jsonFile << "{"
              << "\"huoneidenMaara\":" << huoneidenMaara << ","
              << "\"vapaanaHuoneita\":" << vapaanaHuoneita << ","
@@ -108,6 +110,7 @@ void tallennaJSON()
 
 int arpoVapaanHuoneen(int tyyppi)
 {
+    /* Etsitään ensimmäinen vapaa huone, joka on oikean tyypin */
     int vapaa = -1;
     for (int i = 0; i < huoneidenMaara; i++)
     {
@@ -122,7 +125,7 @@ int arpoVapaanHuoneen(int tyyppi)
 
 int tarkistaHuoneTyyppi(int tyyppi)
 {
-    /* Tarkistetaan huonetyyppi ja palautetaan hinta */
+    /* Tarkistetaan huonetyyppi ja lasketaan hinta */
     int hinta = 0;
     if (tyyppi == 1)
         hinta = YKSIO_HINTA;
@@ -140,8 +143,8 @@ void varaaHuone(int huoneNumero, string nimi)
     int varausnumero = arvoLuku(10000, 99999);
     huoneet[huoneNumero - 1].varausnumero = varausnumero;
 
-    int sattuma = arvoLuku(1, 3);
-    int alennus = 0;
+    /* alennukset: 0%, 10% tai 20% */
+    int sattuma = arvoLuku(1, 3), alennus = 0;
 
     if (sattuma == 1)
         alennus = 0;
@@ -216,8 +219,8 @@ void etsiVaraus()
         {
             loytyi = true;
 
-            cout << "\nVaraus löytyi:" << endl;
-            cout << "Varausnumero: " << huoneet[i].varausnumero << endl;
+            cout << "\nVaraus löytyi" << endl;
+            cout << "Varausnumero: #" << huoneet[i].varausnumero << endl;
             cout << "Asiakas: " << huoneet[i].asiakasNimi << endl;
             cout << "Huone: " << huoneet[i].numero;
 
@@ -233,7 +236,7 @@ void etsiVaraus()
 
     if (!loytyi)
     {
-        cout << "Varausta ei löytynyt nimellä: " << hakuNimi << endl;
+        cout << "Ei löytynyt varausta nimellä: " << hakuNimi << endl;
     }
 }
 
@@ -244,13 +247,9 @@ int main()
     alustaHotelli();
 
     string nimi;
-    /* TODO: optimoi tää silleen kaikki on yhen alla */
-    int huoneNumero;
-    int yot;
-    int kokonaishinta;
-    int huoneTyyppi;
-    int hintaPerYo;
-    int varausnumero;
+
+    int huoneNumero, yot, kokonaishinta, huoneTyyppi, hintaPerYo, varausnumero;
+
     bool jatka = true;
 
     while (jatka)
@@ -348,16 +347,21 @@ int main()
 
         cin.ignore();
 
+        /* Varataan huone ja tallennetaan tiedot */
         varaaHuone(huoneNumero, nimi);
 
+        /* gaetaan varausnumero ja alennus varatusta huoneesta */
         varausnumero = huoneet[huoneNumero - 1].varausnumero;
         int alennus = huoneet[huoneNumero - 1].alennus;
 
         /* TODO: Omaan funtioon?? */
+        /* Lasketaa kokonaishinta ja vähennetään alennus */
         kokonaishinta = yot * hintaPerYo;
+
         int alennus_euroa = (kokonaishinta * alennus) / 100;
         int hinta_alennoksen_jalkeen = kokonaishinta - alennus_euroa;
 
+        /* näyttää arauksen vahvistus asiakkaalle */
         naytaVahvistus(varausnumero, nimi, huoneTyyppi, huoneNumero, yot, hintaPerYo, kokonaishinta, alennus, hinta_alennoksen_jalkeen);
 
         if (!kysy_jatka())
