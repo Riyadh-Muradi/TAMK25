@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { Separator } from "@/components/ui/separator";
 import { HotellinData } from "@/lib/types";
 
 export function HotellinTila() {
@@ -30,63 +31,44 @@ export function HotellinTila() {
     return <div className="text-muted-foreground px-2.5 pb-2">Ladataan...</div>;
 
   return (
-    <div className="grid gap-4 md:grid-cols-3">
-      <div className="group bg-background ring-border/25 relative flex flex-col overflow-hidden rounded-3xl shadow-xs ring-1 outline-none">
-        <div className="border-border/50 border-b p-4 pb-2">
-          <p className="text-muted-foreground text-sm font-medium">
-            Kaikkiaan huoneita
-          </p>
-        </div>
-        <div className="p-4 pt-2">
-          <div className="text-lg font-semibold">
-            {data.huoneidenMaara} yhteensä
+    <div className="group bg-background ring-border/25 relative flex flex-col overflow-hidden rounded-[27px] shadow-xs ring-1 outline-none">
+      <div className="border-border/50 border-b p-4 pb-2">
+        <p className="text-foreground text-sm font-medium">Hotellin tilastot</p>
+      </div>
+      <div className="p-4 pt-2">
+        <div className="grid gap-4 md:grid-cols-2">
+          <div>
+            <p className="text-muted-foreground text-xs">Kaikkiaan huoneita</p>
+            <p className="text-lg font-semibold">
+              {data.huoneidenMaara} yhteensä
+            </p>
           </div>
-        </div>
-      </div>
-
-      <div className="group bg-background ring-border/25 relative flex flex-col overflow-hidden rounded-3xl shadow-xs ring-1 outline-none">
-        <div className="border-border/50 border-b p-4 pb-2">
-          <p className="text-muted-foreground text-sm font-medium">
-            Saatavilla olevat huoneet
-          </p>
-        </div>
-        <div className="p-4 pt-2">
-          <div className="text-lg font-semibold">
-            {data.vapaanaHuoneita} saatavilla
+          <div>
+            <p className="text-muted-foreground text-xs">
+              Saatavilla olevat huoneet
+            </p>
+            <p className="text-lg font-semibold">
+              {data.vapaanaHuoneita} saatavilla
+            </p>
           </div>
-        </div>
-      </div>
-
-      <div className="group bg-background ring-border/25 relative flex flex-col overflow-hidden rounded-3xl shadow-xs ring-1 outline-none">
-        <div className="border-border/50 border-b p-4 pb-2">
-          <p className="text-muted-foreground text-sm font-medium">
-            Varatut huoneet
-          </p>
-        </div>
-        <div className="p-4 pt-2">
-          <div className="text-lg font-semibold">{data.varatuita} varattu</div>
-        </div>
-      </div>
-
-      <div className="group bg-background ring-border/25 relative flex flex-col overflow-hidden rounded-3xl shadow-xs ring-1 outline-none">
-        <div className="border-border/50 border-b p-4 pb-2">
-          <p className="text-muted-foreground text-sm font-medium">
-            Yksiö hinta
-          </p>
-        </div>
-        <div className="p-4 pt-2">
-          <div className="text-lg font-semibold">{data.yksioHinta}€/yö</div>
-        </div>
-      </div>
-
-      <div className="group bg-background ring-border/25 relative flex flex-col overflow-hidden rounded-3xl shadow-xs ring-1 outline-none">
-        <div className="border-border/50 border-b p-4 pb-2">
-          <p className="text-muted-foreground text-sm font-medium">
-            kaksio hinta
-          </p>
-        </div>
-        <div className="p-4 pt-2">
-          <div className="text-lg font-semibold">{data.kaksioHinta}€/yö</div>
+          <div>
+            <p className="text-muted-foreground text-xs">Varatut huoneet</p>
+            <p className="text-lg font-semibold">{data.varatuita} varattu</p>
+          </div>
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-4">
+            <div>
+              <p className="text-muted-foreground text-xs">Yksiö hinta</p>
+              <p className="text-lg font-semibold">{data.yksioHinta}€/yö</p>
+            </div>
+            <Separator
+              orientation="vertical"
+              className="hidden max-h-8 md:block"
+            />
+            <div>
+              <p className="text-muted-foreground text-xs">Kaksio hinta</p>
+              <p className="text-lg font-semibold">{data.kaksioHinta}€/yö</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

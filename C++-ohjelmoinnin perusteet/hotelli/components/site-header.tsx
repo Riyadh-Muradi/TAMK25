@@ -15,7 +15,7 @@ export function SiteHeader() {
   const navItems = siteConfig.navItems;
 
   return (
-    <header className="sticky top-0 z-40 flex flex-col">
+    <header className="sticky top-0 z-40 flex flex-col p-1.5">
       <div className="relative mx-auto flex h-16 w-full items-center justify-between rounded-2xl md:max-w-6xl">
         <div className="flex w-full items-center justify-between gap-2">
           {/* Logo left */}

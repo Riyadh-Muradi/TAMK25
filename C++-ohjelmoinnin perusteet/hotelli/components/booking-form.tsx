@@ -63,7 +63,7 @@ export function VarausLomake() {
   const hinta = valittuHuone ? (valittuHuone.tyyppi === 1 ? 100 : 150) : 100;
 
   return (
-    <div className="group bg-background ring-border/25 relative flex flex-col overflow-hidden rounded-3xl shadow-xs ring-1 outline-none">
+    <div className="group bg-background ring-border/25 relative flex flex-col overflow-hidden rounded-[27px] shadow-xs ring-1 outline-none">
       <div className="border-border/50 border-b p-4 pb-2">
         <h2 className="text-sm font-medium">Tee varaus</h2>
       </div>
