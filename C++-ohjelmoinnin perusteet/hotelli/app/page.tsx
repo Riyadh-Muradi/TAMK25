@@ -35,14 +35,17 @@ export default function Home() {
               <div className="group relative flex flex-col">
                 <div className="border-border/20 border-b p-4 pb-2">
                   <h2 className="text-lg font-semibold">Varauksen tiedot</h2>
+                  <p className="text-muted-foreground mt-1 text-xs">
+                    huom. data ei tallennu pysyvästi (prod)
+                  </p>
                 </div>
-                <div className="text-muted-foreground space-y-4 p-6">
+                <div className="text-muted-foreground space-y-4 p-4">
                   <div>
                     <h4 className="text-foreground mb-2 font-semibold">
                       Hinta
                     </h4>
                     <p>Yksiö: 100€/yö</p>
-                    <p>Kaksiö: 150€/yö</p>
+                    <p>Kaksio: 150€/yö</p>
                   </div>
                   <div>
                     <h4 className="text-foreground mb-2 font-semibold">
@@ -62,7 +65,7 @@ export default function Home() {
                 <div className="border-border/20 border-b p-4 pb-2">
                   <h2 className="text-lg font-semibold">Hakuvinkit</h2>
                 </div>
-                <div className="text-muted-foreground space-y-4 p-6">
+                <div className="text-muted-foreground space-y-4 p-4">
                   <div>
                     <h4 className="text-foreground mb-2 font-semibold">
                       Etsi nimellä

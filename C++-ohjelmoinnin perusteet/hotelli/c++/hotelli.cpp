@@ -41,7 +41,7 @@ void alustaHotelli()
     if (huoneidenMaara % 2 != 0)
         huoneidenMaara--;
 
-    /* Jaetaan huoneet puoliksi: ensimmäiset yksiöt, loput kaksiöt */
+    /* Jaetaan huoneet puoliksi: ensimmäiset yksiöt, loput kaksiot */
     int puolikas = huoneidenMaara / 2;
 
     for (int i = 0; i < huoneidenMaara; i++)
@@ -52,7 +52,7 @@ void alustaHotelli()
         huoneet[i].varausnumero = 0;
         huoneet[i].alennus = 0;
 
-        /* Ensimmäinen puoli saa tyypin 1 (yksiö), toinen puoli tyypin 2 (kaksiö) */
+        /* Ensimmäinen puoli saa tyypin 1 (yksiö), toinen puoli tyypin 2 (kaksio) */
         if (i < puolikas)
             huoneet[i].tyyppi = 1;
         else
@@ -60,8 +60,8 @@ void alustaHotelli()
     }
 
     cout << "Hotelli alustettu" << endl;
-    cout << "Huoneita yhteensä: " << huoneidenMaara << " (" << puolikas << " yksiö + " << puolikas << " kaksiö)" << endl;
-    cout << "Hinnat - Yksiö: " << YKSIO_HINTA << "€, Kaksiö: " << KAKSIO_HINTA << "€" << endl;
+    cout << "Huoneita yhteensä: " << huoneidenMaara << " (" << puolikas << " yksiö + " << puolikas << " kaksio)" << endl;
+    cout << "Hinnat - Yksiö: " << YKSIO_HINTA << "€, kaksio: " << KAKSIO_HINTA << "€" << endl;
     cout << endl;
 
     tallennaJSON();
@@ -81,30 +81,32 @@ void tallennaJSON()
             varatuita++;
     }
 
-    /* TODO: formattaa json sillee että se on clean */
-    jsonFile << "{"
-             << "\"huoneidenMaara\":" << huoneidenMaara << ","
-             << "\"vapaanaHuoneita\":" << vapaanaHuoneita << ","
-             << "\"varatuita\":" << varatuita << ","
-             << "\"yksioHinta\":" << YKSIO_HINTA << ","
-             << "\"kaksioHinta\":" << KAKSIO_HINTA << ","
-             << "\"huoneet\":[";
+    /* Formattaa json tiedoston oikean näköiseksi. Tehty gpt:llä*/
+    jsonFile << "{\n"
+             << "  \"huoneidenMaara\": " << huoneidenMaara << ",\n"
+             << "  \"vapaanaHuoneita\": " << vapaanaHuoneita << ",\n"
+             << "  \"varatuita\": " << varatuita << ",\n"
+             << "  \"yksioHinta\": " << YKSIO_HINTA << ",\n"
+             << "  \"kaksioHinta\": " << KAKSIO_HINTA << ",\n"
+             << "  \"huoneet\": [\n";
 
     for (int i = 0; i < huoneidenMaara; i++)
     {
-        jsonFile << "{"
-                 << "\"numero\":" << huoneet[i].numero << ","
-                 << "\"tyyppi\":" << huoneet[i].tyyppi << ","
-                 << "\"varattu\":" << (huoneet[i].varattu ? "true" : "false") << ","
-                 << "\"asiakas\":\"" << huoneet[i].asiakasNimi << "\","
-                 << "\"varausNumero\":" << huoneet[i].varausnumero << ","
-                 << "\"alennus\":" << huoneet[i].alennus
-                 << "}";
+        jsonFile << "    {\n"
+                 << "      \"numero\": " << huoneet[i].numero << ",\n"
+                 << "      \"tyyppi\": " << huoneet[i].tyyppi << ",\n"
+                 << "      \"varattu\": " << (huoneet[i].varattu ? "true" : "false") << ",\n"
+                 << "      \"asiakas\": \"" << huoneet[i].asiakasNimi << "\",\n"
+                 << "      \"varausNumero\": " << huoneet[i].varausnumero << ",\n"
+                 << "      \"alennus\": " << huoneet[i].alennus << "\n"
+                 << "    }";
         if (i < huoneidenMaara - 1)
             jsonFile << ",";
+        jsonFile << "\n";
     }
 
-    jsonFile << "]}";
+    jsonFile << "  ]\n"
+             << "}\n";
     jsonFile.close();
 }
 
@@ -143,7 +145,7 @@ void varaaHuone(int huoneNumero, string nimi)
     int varausnumero = arvoLuku(10000, 99999);
     huoneet[huoneNumero - 1].varausnumero = varausnumero;
 
-    /* alennukset: 0%, 10% tai 20% */
+    /* Alennukset: 0%, 10% tai 20% */
     int sattuma = arvoLuku(1, 3), alennus = 0;
 
     if (sattuma == 1)
@@ -155,11 +157,11 @@ void varaaHuone(int huoneNumero, string nimi)
 
     huoneet[huoneNumero - 1].alennus = alennus;
 
-    /* päivitää JSON tiedostoo */
+    /* Päivittää json tiedostoo */
     tallennaJSON();
 }
 
-void naytaVahvistus(int varausnumero, string asiakas, int tyyppi, int huone, int yot, int hinta, int kokonaishinta, int alennus, int hinta_alennus)
+void naytaVahvistus(int varausnumero, string asiakas, int tyyppi, int huone, int yot, int hinta, int kokonaishinta, int alennus, int hintaAlennoksen)
 {
     /* Näytetään varauksen vahvistus */
     cout << "\nVaraus vahvistettu " << endl;
@@ -169,7 +171,7 @@ void naytaVahvistus(int varausnumero, string asiakas, int tyyppi, int huone, int
     if (tyyppi == 1)
         cout << "Huone: " << huone << " (yksiö)" << endl;
     else
-        cout << "Huone: " << huone << " (kaksiö)" << endl;
+        cout << "Huone: " << huone << " (kaksio)" << endl;
 
     cout << "Yöt: " << yot << endl;
     cout << "Yön hinta: " << hinta << "€" << endl;
@@ -178,13 +180,13 @@ void naytaVahvistus(int varausnumero, string asiakas, int tyyppi, int huone, int
     if (alennus > 0)
     {
         cout << "Alennus: " << alennus << "%" << endl;
-        cout << "Hinta alennoksen jälkeen: " << hinta_alennus << "€" << endl;
+        cout << "Hinta alennoksen jälkeen: " << hintaAlennoksen << "€" << endl;
     }
 
     cout << endl;
 }
 
-bool kysy_jatka()
+bool kysyJatka()
 {
     /* Kysytään käyttäjältä jatkaa vai ei */
     cout << "Haluatko tehdä uuden varauksen? (k/e): ";
@@ -202,10 +204,10 @@ void etsiVaraus()
     cout << "\nEtsi varaus" << endl;
     cout << "Anna asiakkaan nimi: ";
 
-    string hakuNimi;
-    getline(cin, hakuNimi);
+    string nimi;
+    getline(cin, nimi);
 
-    if (hakuNimi.empty())
+    if (nimi.empty())
     {
         cout << "Nimi ei saa olla tyhjä!" << endl;
         return;
@@ -215,7 +217,7 @@ void etsiVaraus()
 
     for (int i = 0; i < huoneidenMaara; i++)
     {
-        if (huoneet[i].varattu && huoneet[i].asiakasNimi == hakuNimi)
+        if (huoneet[i].varattu && huoneet[i].asiakasNimi == nimi)
         {
             loytyi = true;
 
@@ -227,7 +229,7 @@ void etsiVaraus()
             if (huoneet[i].tyyppi == 1)
                 cout << " (yksiö)" << endl;
             else
-                cout << " (kaksiö)" << endl;
+                cout << " (kaksio)" << endl;
 
             cout << "Alennus: " << huoneet[i].alennus << "%" << endl;
             cout << endl;
@@ -236,7 +238,7 @@ void etsiVaraus()
 
     if (!loytyi)
     {
-        cout << "Ei löytynyt varausta nimellä: " << hakuNimi << endl;
+        cout << "Ei löytynyt varausta nimellä: " << nimi << endl;
     }
 }
 
@@ -294,7 +296,7 @@ int main()
             continue;
         }
 
-        cout << "Huoneen tyyppi (1: yksiö, 2: kaksiö): ";
+        cout << "Huoneen tyyppi (1: yksiö, 2: kaksio): ";
         cin >> huoneTyyppi;
 
         if (cin.fail())
@@ -350,7 +352,7 @@ int main()
         /* Varataan huone ja tallennetaan tiedot */
         varaaHuone(huoneNumero, nimi);
 
-        /* gaetaan varausnumero ja alennus varatusta huoneesta */
+        /* Haetaan varausnumero ja alennus varatusta huoneesta */
         varausnumero = huoneet[huoneNumero - 1].varausnumero;
         int alennus = huoneet[huoneNumero - 1].alennus;
 
@@ -358,13 +360,13 @@ int main()
         /* Lasketaa kokonaishinta ja vähennetään alennus */
         kokonaishinta = yot * hintaPerYo;
 
-        int alennus_euroa = (kokonaishinta * alennus) / 100;
-        int hinta_alennoksen_jalkeen = kokonaishinta - alennus_euroa;
+        int alennusEuroa = (kokonaishinta * alennus) / 100;
+        int hintaAlennoksen = kokonaishinta - alennusEuroa;
 
-        /* näyttää arauksen vahvistus asiakkaalle */
-        naytaVahvistus(varausnumero, nimi, huoneTyyppi, huoneNumero, yot, hintaPerYo, kokonaishinta, alennus, hinta_alennoksen_jalkeen);
+        /* Näytetää varauksen vahvistus asiakkaalle */
+        naytaVahvistus(varausnumero, nimi, huoneTyyppi, huoneNumero, yot, hintaPerYo, kokonaishinta, alennus, hintaAlennoksen);
 
-        if (!kysy_jatka())
+        if (!kysyJatka())
         {
             break;
         }

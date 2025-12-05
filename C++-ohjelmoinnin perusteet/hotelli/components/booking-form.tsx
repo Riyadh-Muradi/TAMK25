@@ -89,7 +89,7 @@ export function VarausLomake() {
               <SelectContent>
                 {vapaatHuoneet.map((h) => (
                   <SelectItem key={h.numero} value={h.numero.toString()}>
-                    Huone {h.numero} ({h.tyyppi === 1 ? "yksiö" : "kaksiö"})
+                    Huone {h.numero} ({h.tyyppi === 1 ? "yksiö" : "kaksio"})
                   </SelectItem>
                 ))}
               </SelectContent>

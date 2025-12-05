@@ -82,7 +82,7 @@ export function HotellinTila() {
       <div className="group bg-background ring-border/25 relative flex flex-col overflow-hidden rounded-3xl shadow-xs ring-1 outline-none">
         <div className="border-border/50 border-b p-4 pb-2">
           <p className="text-muted-foreground text-sm font-medium">
-            Kaksiö hinta
+            kaksio hinta
           </p>
         </div>
         <div className="p-4 pt-2">

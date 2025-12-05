@@ -77,7 +77,7 @@ export function HakuLomake() {
                     <div className="flex justify-between text-sm">
                       <p className="text-muted-foreground">
                         Huone {huone.numero} (
-                        {huone.tyyppi === 1 ? "yksiö" : "kaksiö"})
+                        {huone.tyyppi === 1 ? "yksiö" : "kaksio"})
                       </p>
                     </div>
                   </div>
