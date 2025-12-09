@@ -38,7 +38,7 @@ void tallennaJSON();
 
 void alustaHotelli()
 {
-    /* Arvotaan huoneiden määrä ja varmistetaan että se on parillinen */
+    /* Arvotaan huoneiden määrä ja varmistetaan et se on parillinen */
     huoneidenMaara = arvoLuku(MIN_HUONEITA, 70);
     if (huoneidenMaara % 2 != 0)
         huoneidenMaara--;
@@ -73,15 +73,24 @@ void tallennaJSON()
 {
     ofstream jsonFile("data.json");
 
-    /* Tarkistetaan et tiedosto avautuu  */
+    /* Tarkistetaan et tiedosto avautuu */
     if (!jsonFile.is_open())
     {
-        cout << "Ei voitu avata json filua" << endl;
+        cout << "VIRHE: Ei voitu avata json tiedostoa" << endl;
+        return;
+    }
+
+    /* Tarkistetaan et tiedostoon voi kirjoittaa */
+    if (!jsonFile.good())
+    {
+        cout << "VIRHE: Tiedostoon kirjoitus epäonnistui" << endl;
+        jsonFile.close();
         return;
     }
 
     int vapaanaHuoneita = 0, varatuita = 0;
 
+    /* Lasketaan vapaina ja varattuna olevien huoneiden määrät */
     for (int i = 0; i < huoneidenMaara; i++)
     {
         if (!huoneet[i].varattu)
@@ -99,6 +108,7 @@ void tallennaJSON()
              << "  \"kaksioHinta\": " << KAKSIO_HINTA << ",\n"
              << "  \"huoneet\": [\n";
 
+    /* Kirjoitetaan jokaisen huoneen tiedot */
     for (int i = 0; i < huoneidenMaara; i++)
     {
         jsonFile << "    {\n"
@@ -116,6 +126,13 @@ void tallennaJSON()
 
     jsonFile << "  ]\n"
              << "}\n";
+
+    /* Varmistetaan et kaikki data on kirjoitettu */
+    if (!jsonFile.good())
+    {
+        cout << "VIRHE: JSON kirjoitus epäonnistui" << endl;
+    }
+
     jsonFile.close();
 }
 
@@ -148,7 +165,7 @@ int tarkistaHuoneTyyppi(int tyyppi)
 void varaaHuone(int huoneNumero, string nimi)
 {
     /* Laitetaan huone varatuksi */
-    /* Tarkistetaan että huone ei ole jo varattu */
+    /* Tarkistetaan et huone ei ole jo varattu */
     if (huoneet[huoneNumero - 1].varattu)
     {
         cout << "Huone on jo varattu" << endl;
@@ -160,7 +177,7 @@ void varaaHuone(int huoneNumero, string nimi)
 
     int varausnumero = arvoLuku(10000, 99999);
 
-    /* Tarkistetaan että varausnumero ei ole jo käytössä */
+    /* Tarkistetaan et varausnumero ei ole jo käytössä */
     bool loytyi = false;
     for (int i = 0; i < varausnumeroMaara; i++)
     {
@@ -199,8 +216,15 @@ void varaaHuone(int huoneNumero, string nimi)
         alennus = 0;
     else if (sattuma == 2)
         alennus = 10;
-    else
+    else if (sattuma == 3)
         alennus = 20;
+
+    /* Validoidaan alennus */
+    if (alennus < 0 || alennus > 100)
+    {
+        cout << "VIRHE: Alennus ylitti sallitun rajan (" << alennus << "%)" << endl;
+        alennus = 0;
+    }
 
     huoneet[huoneNumero - 1].alennus = alennus;
 
@@ -249,43 +273,115 @@ void etsiVaraus()
 {
     /* Etsitään olemassa olevia varauksia */
     cout << "\nEtsi varaus" << endl;
-    cout << "Anna asiakkaan nimi: ";
+    cout << "Etsi: 1 = Nimellä, 2 = Varausnumerolla: ";
 
-    string nimi;
-    getline(cin, nimi);
+    int valinta = 0;
+    cin >> valinta;
 
-    if (nimi.empty())
+    if (cin.fail())
     {
-        cout << "Nimi ei saa olla tyhjä" << endl;
+        cin.clear();
+        cin.ignore(10000, '\n');
+        cout << "VIRHE: Syötä numero 1 tai 2" << endl;
         return;
     }
 
-    bool loytyi = false;
+    cin.ignore();
 
-    for (int i = 0; i < huoneidenMaara; i++)
+    if (valinta == 1)
     {
-        if (huoneet[i].varattu && huoneet[i].asiakasNimi == nimi)
+        /* Haku nimellä */
+        cout << "Anna asiakkaan nimi: ";
+        string nimi;
+        getline(cin, nimi);
+
+        if (nimi.empty())
         {
-            loytyi = true;
+            cout << "VIRHE: Nimi ei saa olla tyhjä" << endl;
+            return;
+        }
 
-            cout << "\nVaraus löytyi" << endl;
-            cout << "Varausnumero: #" << huoneet[i].varausnumero << endl;
-            cout << "Asiakas: " << huoneet[i].asiakasNimi << endl;
-            cout << "Huone: " << huoneet[i].numero;
+        bool loytyi = false;
 
-            if (huoneet[i].tyyppi == 1)
-                cout << " (yksiö)" << endl;
-            else
-                cout << " (kaksio)" << endl;
+        for (int i = 0; i < huoneidenMaara; i++)
+        {
+            if (huoneet[i].varattu && huoneet[i].asiakasNimi == nimi)
+            {
+                loytyi = true;
 
-            cout << "Alennus: " << huoneet[i].alennus << "%" << endl;
-            cout << endl;
+                cout << "\nVaraus löytyi" << endl;
+                cout << "Varausnumero: #" << huoneet[i].varausnumero << endl;
+                cout << "Asiakas: " << huoneet[i].asiakasNimi << endl;
+                cout << "Huone: " << huoneet[i].numero;
+
+                if (huoneet[i].tyyppi == 1)
+                    cout << " (yksiö)" << endl;
+                else
+                    cout << " (kaksio)" << endl;
+
+                cout << "Alennus: " << huoneet[i].alennus << "%" << endl;
+                cout << endl;
+            }
+        }
+
+        if (!loytyi)
+        {
+            cout << "Ei löytynyt varausta nimellä: " << nimi << endl;
         }
     }
-
-    if (!loytyi)
+    else if (valinta == 2)
     {
-        cout << "Ei löytynyt varausta nimellä: " << nimi << endl;
+        /* Haku varausnumerolla */
+        cout << "Anna varausnumero (10000-99999): ";
+        int varausnumero = 0;
+        cin >> varausnumero;
+
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(10000, '\n');
+            cout << "VIRHE: Syötä numero välillä 10000-99999" << endl;
+            return;
+        }
+
+        if (varausnumero < 10000 || varausnumero > 99999)
+        {
+            cout << "VIRHE: Varausnumero tulee olla välillä 10000-99999" << endl;
+            return;
+        }
+
+        bool loytyi = false;
+
+        for (int i = 0; i < huoneidenMaara; i++)
+        {
+            if (huoneet[i].varattu && huoneet[i].varausnumero == varausnumero)
+            {
+                loytyi = true;
+
+                cout << "\nVaraus löytyi" << endl;
+                cout << "Varausnumero: #" << huoneet[i].varausnumero << endl;
+                cout << "Asiakas: " << huoneet[i].asiakasNimi << endl;
+                cout << "Huone: " << huoneet[i].numero;
+
+                if (huoneet[i].tyyppi == 1)
+                    cout << " (yksiö)" << endl;
+                else
+                    cout << " (kaksio)" << endl;
+
+                cout << "Alennus: " << huoneet[i].alennus << "%" << endl;
+                cout << endl;
+                break;
+            }
+        }
+
+        if (!loytyi)
+        {
+            cout << "Ei löytynyt varausta numerolla: " << varausnumero << endl;
+        }
+    }
+    else
+    {
+        cout << "VIRHE: Valinta tulee olla 1 tai 2" << endl;
     }
 }
 
@@ -304,13 +400,20 @@ int main()
     while (jatka)
     {
         int valinta = 0;
-        cout << "Valitse: 1 = Uusi varaus, 2 = Etsi varaus, 3 = Lopeta: ";
+        cout << "\nValitse: 1 = Uusi varaus, 2 = Etsi varaus, 3 = Lopeta: ";
         cin >> valinta;
 
         if (cin.fail())
         {
             cin.clear();
             cin.ignore(10000, '\n');
+            cout << "VIRHE: Syötä numero 1, 2 tai 3" << endl;
+            continue;
+        }
+
+        if (valinta < 1 || valinta > 3)
+        {
+            cout << "VIRHE: Valinta tulee olla 1, 2 tai 3" << endl;
             continue;
         }
 
@@ -337,9 +440,32 @@ int main()
         cout << "Anna nimesi: ";
         getline(cin, nimi);
 
-        if (nimi.empty() || nimi.length() > 100)
+        /* Validoidaan nimi - tyhjä, liian pitkä tai väärät merkit */
+        if (nimi.empty())
         {
-            cout << "Nimi ei saa olla tyhjä tai yli 100 merkkiä" << endl;
+            cout << "VIRHE: Nimi ei saa olla tyhjä" << endl;
+            continue;
+        }
+
+        if (nimi.length() > 100)
+        {
+            cout << "VIRHE: Nimi saa olla maksimissaan 100 merkkiä (antoit " << nimi.length() << ")" << endl;
+            continue;
+        }
+
+        /* Tarkistetaan et nimi ei sisällä vain välilyöntejä */
+        bool vainValilyjonteja = true;
+        for (char c : nimi)
+        {
+            if (c != ' ')
+            {
+                vainValilyjonteja = false;
+                break;
+            }
+        }
+        if (vainValilyjonteja)
+        {
+            cout << "VIRHE: Nimi ei saa sisältää vain välilyöntejä" << endl;
             continue;
         }
 
@@ -350,13 +476,13 @@ int main()
         {
             cin.clear();
             cin.ignore(10000, '\n');
-            cout << "Valitse 1 tai 2" << endl;
+            cout << "VIRHE: Syötä numero 1 tai 2" << endl;
             continue;
         }
 
         if (huoneTyyppi < 1 || huoneTyyppi > 2)
         {
-            cout << "Valitse 1 tai 2" << endl;
+            cout << "VIRHE: Huonetyyppi tulee olla 1 (yksiö) tai 2 (kaksio)" << endl;
             cin.clear();
             cin.ignore(10000, '\n');
             continue;
@@ -384,13 +510,13 @@ int main()
         {
             cin.clear();
             cin.ignore(10000, '\n');
-            cout << "Vähintään 1 yö" << endl;
+            cout << "VIRHE: Syötä numero" << endl;
             continue;
         }
 
         if (yot < 1)
         {
-            cout << "Vähintään 1 yö" << endl;
+            cout << "VIRHE: Yöt tulee olla vähintään 1" << endl;
             continue;
         }
 
@@ -419,6 +545,6 @@ int main()
         }
     }
 
-    cout << "\nKiitos moi" << endl;
+    cout << "\nKiitos" << endl;
     return 0;
 }
