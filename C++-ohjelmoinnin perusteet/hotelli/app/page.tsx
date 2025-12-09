@@ -66,9 +66,15 @@ export default function Home() {
                 <div className="text-muted-foreground space-y-4 p-4">
                   <div>
                     <h4 className="text-foreground mb-2 font-semibold">
-                      Etsi nimellä
+                      Hae nimellä
                     </h4>
                     <p>Kirjoita asiakkaan nimi löytääksesi varauksen</p>
+                  </div>
+                  <div>
+                    <h4 className="text-foreground mb-2 font-semibold">
+                      Hae varausnumerolla
+                    </h4>
+                    <p>Kirjoita 5-numeroinen varausnumero (10000-99999)</p>
                   </div>
                 </div>
               </div>

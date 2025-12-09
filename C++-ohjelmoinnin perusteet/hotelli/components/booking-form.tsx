@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
-import { HuoneenData, HotellinData } from "@/lib/types";
+import { HuoneenData, HotellinData, VarauksenTiedot } from "@/lib/types";
 
 export function VarausLomake() {
   const [nimi, setNimi] = useState("");
@@ -47,10 +47,23 @@ export function VarausLomake() {
       }),
     })
       .then((res) => res.json())
-      .then(() => {
-        toast.success("Varaus tehty!");
-        setNimi("");
-        setYot("1");
+      .then((data: VarauksenTiedot) => {
+        if (data.varausNumero) {
+          toast.success(`Varaus tehty! Numero: #${data.varausNumero}`);
+
+          if (data.alennus === 0) {
+            toast.info("Ei alennusta");
+          } else if (data.alennus === 10) {
+            toast.success(`Onnittelut! Sait 10% alennuksen varaukseesi!`);
+          } else if (data.alennus === 20) {
+            toast.success(`Onnittelut! Sait 20% alennuksen varaukseesi!`);
+          }
+
+          setNimi("");
+          setYot("1");
+        } else {
+          toast.error("Virhe varauksessa");
+        }
       })
       .catch(() => {
         toast.error("Virhe");
@@ -82,18 +95,26 @@ export function VarausLomake() {
 
           <div className="space-y-2">
             <Label htmlFor="huoneNumero">Huoneen numero</Label>
-            <Select value={huoneNumero} onValueChange={setHuoneNumero}>
-              <SelectTrigger id="huoneNumero" className="w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {vapaatHuoneet.map((h) => (
-                  <SelectItem key={h.numero} value={h.numero.toString()}>
-                    Huone {h.numero} ({h.tyyppi === 1 ? "yksiö" : "kaksio"})
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            {vapaatHuoneet.length === 0 ? (
+              <div className="rounded-lg border border-red-500/50 bg-red-500/10 p-3">
+                <p className="text-sm text-red-600">
+                  Kaikki huoneet on varattu
+                </p>
+              </div>
+            ) : (
+              <Select value={huoneNumero} onValueChange={setHuoneNumero}>
+                <SelectTrigger id="huoneNumero" className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {vapaatHuoneet.map((h) => (
+                    <SelectItem key={h.numero} value={h.numero.toString()}>
+                      Huone {h.numero} ({h.tyyppi === 1 ? "yksiö" : "kaksio"})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
           </div>
 
           <div className="space-y-2">

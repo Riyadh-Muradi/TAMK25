@@ -22,3 +22,12 @@ export type VarattuHuone = {
   asiakas: string;
   varausNumero: number;
 };
+
+export interface VarauksenTiedot {
+  varausNumero: number;
+  asiakas: string;
+  huoneNumero: number;
+  huoneTyyppi: number;
+  alennus: number;
+  hintaPerYo: number;
+}

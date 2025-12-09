@@ -1,6 +1,6 @@
 {
-  "huoneidenMaara": 42,
-  "vapaanaHuoneita": 40,
+  "huoneidenMaara": 56,
+  "vapaanaHuoneita": 54,
   "varatuita": 2,
   "yksioHinta": 100,
   "kaksioHinta": 150,
@@ -10,16 +10,16 @@
       "tyyppi": 1,
       "varattu": true,
       "asiakas": "Diar Muradi",
-      "varausNumero": 21465,
-      "alennus": 20
+      "varausNumero": 28450,
+      "alennus": 0
     },
     {
       "numero": 2,
       "tyyppi": 2,
       "varattu": true,
       "asiakas": "Riyadh Muradi",
-      "varausNumero": 17164,
-      "alennus": 10
+      "varausNumero": 32754,
+      "alennus": 20
     },
     {
       "numero": 3,
@@ -175,7 +175,7 @@
     },
     {
       "numero": 22,
-      "tyyppi": 2,
+      "tyyppi": 1,
       "varattu": false,
       "asiakas": "",
       "varausNumero": 0,
@@ -183,7 +183,7 @@
     },
     {
       "numero": 23,
-      "tyyppi": 2,
+      "tyyppi": 1,
       "varattu": false,
       "asiakas": "",
       "varausNumero": 0,
@@ -191,7 +191,7 @@
     },
     {
       "numero": 24,
-      "tyyppi": 2,
+      "tyyppi": 1,
       "varattu": false,
       "asiakas": "",
       "varausNumero": 0,
@@ -199,7 +199,7 @@
     },
     {
       "numero": 25,
-      "tyyppi": 2,
+      "tyyppi": 1,
       "varattu": false,
       "asiakas": "",
       "varausNumero": 0,
@@ -207,7 +207,7 @@
     },
     {
       "numero": 26,
-      "tyyppi": 2,
+      "tyyppi": 1,
       "varattu": false,
       "asiakas": "",
       "varausNumero": 0,
@@ -215,7 +215,7 @@
     },
     {
       "numero": 27,
-      "tyyppi": 2,
+      "tyyppi": 1,
       "varattu": false,
       "asiakas": "",
       "varausNumero": 0,
@@ -223,7 +223,7 @@
     },
     {
       "numero": 28,
-      "tyyppi": 2,
+      "tyyppi": 1,
       "varattu": false,
       "asiakas": "",
       "varausNumero": 0,
@@ -335,6 +335,118 @@
     },
     {
       "numero": 42,
+      "tyyppi": 2,
+      "varattu": false,
+      "asiakas": "",
+      "varausNumero": 0,
+      "alennus": 0
+    },
+    {
+      "numero": 43,
+      "tyyppi": 2,
+      "varattu": false,
+      "asiakas": "",
+      "varausNumero": 0,
+      "alennus": 0
+    },
+    {
+      "numero": 44,
+      "tyyppi": 2,
+      "varattu": false,
+      "asiakas": "",
+      "varausNumero": 0,
+      "alennus": 0
+    },
+    {
+      "numero": 45,
+      "tyyppi": 2,
+      "varattu": false,
+      "asiakas": "",
+      "varausNumero": 0,
+      "alennus": 0
+    },
+    {
+      "numero": 46,
+      "tyyppi": 2,
+      "varattu": false,
+      "asiakas": "",
+      "varausNumero": 0,
+      "alennus": 0
+    },
+    {
+      "numero": 47,
+      "tyyppi": 2,
+      "varattu": false,
+      "asiakas": "",
+      "varausNumero": 0,
+      "alennus": 0
+    },
+    {
+      "numero": 48,
+      "tyyppi": 2,
+      "varattu": false,
+      "asiakas": "",
+      "varausNumero": 0,
+      "alennus": 0
+    },
+    {
+      "numero": 49,
+      "tyyppi": 2,
+      "varattu": false,
+      "asiakas": "",
+      "varausNumero": 0,
+      "alennus": 0
+    },
+    {
+      "numero": 50,
+      "tyyppi": 2,
+      "varattu": false,
+      "asiakas": "",
+      "varausNumero": 0,
+      "alennus": 0
+    },
+    {
+      "numero": 51,
+      "tyyppi": 2,
+      "varattu": false,
+      "asiakas": "",
+      "varausNumero": 0,
+      "alennus": 0
+    },
+    {
+      "numero": 52,
+      "tyyppi": 2,
+      "varattu": false,
+      "asiakas": "",
+      "varausNumero": 0,
+      "alennus": 0
+    },
+    {
+      "numero": 53,
+      "tyyppi": 2,
+      "varattu": false,
+      "asiakas": "",
+      "varausNumero": 0,
+      "alennus": 0
+    },
+    {
+      "numero": 54,
+      "tyyppi": 2,
+      "varattu": false,
+      "asiakas": "",
+      "varausNumero": 0,
+      "alennus": 0
+    },
+    {
+      "numero": 55,
+      "tyyppi": 2,
+      "varattu": false,
+      "asiakas": "",
+      "varausNumero": 0,
+      "alennus": 0
+    },
+    {
+      "numero": 56,
       "tyyppi": 2,
       "varattu": false,
       "asiakas": "",

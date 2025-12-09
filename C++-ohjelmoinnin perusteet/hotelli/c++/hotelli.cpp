@@ -35,6 +35,7 @@ int arvoLuku(int min, int max)
 }
 
 void tallennaJSON();
+void naytaHotellintila();
 
 void alustaHotelli()
 {
@@ -269,6 +270,37 @@ bool kysyJatka()
     return false;
 }
 
+void naytaHotellintila()
+{
+    /* Näytetään hotellin tilastot*/
+    int vapaanaYksio = 0;
+    int vapaaKaksio = 0;
+
+    for (int i = 0; i < huoneidenMaara; i++)
+    {
+        if (!huoneet[i].varattu)
+        {
+            if (huoneet[i].tyyppi == 1)
+                vapaanaYksio = vapaanaYksio + 1;
+            else
+                vapaaKaksio = vapaaKaksio + 1;
+        }
+    }
+
+    int kokonaisVapaa = vapaanaYksio + vapaaKaksio;
+    int kokonaisVarattu = huoneidenMaara - kokonaisVapaa;
+
+    cout << endl;
+    cout << "Hotellin tilastot" << endl;
+    cout << "Huoneita yhteensä: " << huoneidenMaara << endl;
+    cout << "Varattuja: " << kokonaisVarattu << endl;
+    cout << "Vapaana: " << kokonaisVapaa << endl;
+    cout << endl;
+    cout << "Yksiöitä vapaana: " << vapaanaYksio << endl;
+    cout << "Kaksioita vapaana: " << vapaaKaksio << endl;
+    cout << endl;
+}
+
 void etsiVaraus()
 {
     /* Etsitään olemassa olevia varauksia */
@@ -400,20 +432,20 @@ int main()
     while (jatka)
     {
         int valinta = 0;
-        cout << "\nValitse: 1 = Uusi varaus, 2 = Etsi varaus, 3 = Lopeta: ";
+        cout << "\nValitse: 1 = Uusi varaus, 2 = Etsi varaus, 3 = Hotellin tila, 4 = Lopeta: ";
         cin >> valinta;
 
         if (cin.fail())
         {
             cin.clear();
             cin.ignore(10000, '\n');
-            cout << "VIRHE: Syötä numero 1, 2 tai 3" << endl;
+            cout << "VIRHE: Syötä numero 1, 2, 3 tai 4" << endl;
             continue;
         }
 
-        if (valinta < 1 || valinta > 3)
+        if (valinta < 1 || valinta > 4)
         {
-            cout << "VIRHE: Valinta tulee olla 1, 2 tai 3" << endl;
+            cout << "VIRHE: Valinta tulee olla 1, 2, 3 tai 4" << endl;
             continue;
         }
 
@@ -426,6 +458,12 @@ int main()
         }
 
         if (valinta == 3)
+        {
+            naytaHotellintila();
+            continue;
+        }
+
+        if (valinta == 4)
         {
             jatka = false;
             break;
@@ -490,6 +528,40 @@ int main()
 
         cin.ignore();
 
+        /* Näytetään saatavilla olevien huoneiden määrä */
+        int vapaanaYksio = 0;
+        int vapaaKaksio = 0;
+
+        for (int i = 0; i < huoneidenMaara; i++)
+        {
+            if (!huoneet[i].varattu)
+            {
+                if (huoneet[i].tyyppi == 1)
+                    vapaanaYksio = vapaanaYksio + 1;
+                else
+                    vapaaKaksio = vapaaKaksio + 1;
+            }
+        }
+
+        if (huoneTyyppi == 1)
+        {
+            cout << "Saatavilla olevia yksiöitä: " << vapaanaYksio << endl;
+            if (vapaanaYksio == 0)
+            {
+                cout << "VIRHE: Kaikki yksiöt on varattu" << endl;
+                continue;
+            }
+        }
+        else
+        {
+            cout << "Saatavilla olevia kaksioita: " << vapaaKaksio << endl;
+            if (vapaaKaksio == 0)
+            {
+                cout << "VIRHE: Kaikki kaksiot on varattu" << endl;
+                continue;
+            }
+        }
+
         hintaPerYo = tarkistaHuoneTyyppi(huoneTyyppi);
 
         huoneNumero = arpoVapaanHuoneen(huoneTyyppi);
@@ -539,12 +611,27 @@ int main()
         /* Näytetää varauksen vahvistus asiakkaalle */
         naytaVahvistus(varausnumero, nimi, huoneTyyppi, huoneNumero, yot, hintaPerYo, kokonaishinta, alennus, hintaAlennoksen);
 
+        /* Näytetään alennukseen liittyvä viesti */
+        if (alennus == 0)
+        {
+            cout << "Ei alennusta" << endl;
+        }
+        else if (alennus == 10)
+        {
+            cout << "Onnittelut! Sait 10% alennuksen varaukseesi!" << endl;
+        }
+        else if (alennus == 20)
+        {
+            cout << "Onnittelut! Sait 20% alennuksen varaukseesi!" << endl;
+        }
+        cout << endl;
+
         if (!kysyJatka())
         {
             break;
         }
     }
 
-    cout << "\nKiitos" << endl;
+    cout << "\nKiitos käynistä" << endl;
     return 0;
 }

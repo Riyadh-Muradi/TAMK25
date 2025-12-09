@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Separator } from "@/components/ui/separator";
 import { HotellinData } from "@/lib/types";
 
 export function HotellinTila() {
@@ -22,13 +21,19 @@ export function HotellinTila() {
       });
   }, []);
 
-  if (error) {
-    toast.error("Hotellin tietoja ei voitu ladata");
-    return null;
-  }
+  if (error) return null;
 
   if (!data)
     return <div className="text-muted-foreground px-2.5 pb-2">Ladataan...</div>;
+
+  /* Lasketaan yksiöt ja kaksiot */
+  const puolikas = data.huoneidenMaara / 2;
+  const vapaatYksiot = data.huoneet.filter(
+    (h) => !h.varattu && h.tyyppi === 1,
+  ).length;
+  const vapaatKaksiot = data.huoneet.filter(
+    (h) => !h.varattu && h.tyyppi === 2,
+  ).length;
 
   return (
     <div className="group bg-background ring-border/25 relative flex flex-col overflow-hidden rounded-[27px] shadow-xs ring-1 outline-none">
@@ -43,30 +48,42 @@ export function HotellinTila() {
               {data.huoneidenMaara} yhteensä
             </p>
           </div>
-          <div>
-            <p className="text-muted-foreground text-xs">
-              Saatavilla olevat huoneet
-            </p>
-            <p className="text-lg font-semibold">
-              {data.vapaanaHuoneita} saatavilla
-            </p>
+          <div className="flex gap-8">
+            <div>
+              <p className="text-muted-foreground text-xs">
+                Saatavilla olevat huoneet
+              </p>
+              <p className="text-lg font-semibold">
+                {data.vapaanaHuoneita} saatavilla
+              </p>
+            </div>
+            <div>
+              <p className="text-muted-foreground text-xs">Yksiöt</p>
+              <p className="text-lg font-semibold">
+                {vapaatYksiot} / {Math.round(puolikas)}
+              </p>
+            </div>
+            <div>
+              <p className="text-muted-foreground text-xs">Kaksiot</p>
+              <p className="text-lg font-semibold">
+                {vapaatKaksiot} / {Math.round(puolikas)}
+              </p>
+            </div>
           </div>
           <div>
             <p className="text-muted-foreground text-xs">Varatut huoneet</p>
             <p className="text-lg font-semibold">{data.varatuita} varattu</p>
           </div>
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-4">
-            <div>
-              <p className="text-muted-foreground text-xs">Yksiö hinta</p>
-              <p className="text-lg font-semibold">{data.yksioHinta}€/yö</p>
-            </div>
-            <Separator
-              orientation="vertical"
-              className="hidden max-h-8 md:block"
-            />
-            <div>
-              <p className="text-muted-foreground text-xs">Kaksio hinta</p>
-              <p className="text-lg font-semibold">{data.kaksioHinta}€/yö</p>
+          <div>
+            <div className="flex gap-8">
+              <div>
+                <p className="text-muted-foreground text-xs">Yksiö hinta</p>
+                <p className="text-lg font-semibold">{data.yksioHinta}€/yö</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">Kaksio hinta</p>
+                <p className="text-lg font-semibold">{data.kaksioHinta}€/yö</p>
+              </div>
             </div>
           </div>
         </div>

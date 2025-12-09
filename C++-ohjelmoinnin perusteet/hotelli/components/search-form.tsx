@@ -4,30 +4,60 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { toast } from "sonner";
 import { VarattuHuone } from "@/lib/types";
 
 export function HakuLomake() {
+  const [hakuTyyppi, setHakuTyyppi] = useState("nimi");
   const [hakuNimi, setHakuNimi] = useState("");
+  const [hakuNumero, setHakuNumero] = useState("");
   const [tulokset, setTulokset] = useState<VarattuHuone[]>([]);
   const [haettu, setHaettu] = useState(false);
 
   function kasitteleHaku(e: React.FormEvent) {
     e.preventDefault();
 
+    let hakuPyynto;
+
+    if (hakuTyyppi === "nimi") {
+      if (!hakuNimi.trim()) {
+        toast.error("Kirjoita nimi");
+        return;
+      }
+      hakuPyynto = { nimi: hakuNimi };
+    } else {
+      const numero = parseInt(hakuNumero);
+      if (numero < 10000 || numero > 99999) {
+        toast.error("Varausnumero tulee olla välillä 10000-99999");
+        return;
+      }
+      hakuPyynto = { varausNumero: numero };
+    }
+
     fetch("/api/haku", {
       method: "POST",
-      body: JSON.stringify({
-        nimi: hakuNimi,
-      }),
+      body: JSON.stringify(hakuPyynto),
     })
       .then((res) => res.json())
-      .then((data: VarattuHuone[]) => {
-        setTulokset(data);
+      .then((data: VarattuHuone[] | { error: string }) => {
+        if (Array.isArray(data)) {
+          setTulokset(data);
+        } else {
+          setTulokset([]);
+          toast.error("Virhe haun aikana");
+        }
         setHaettu(true);
       })
       .catch(() => {
         toast.error("Virhe");
+        setTulokset([]);
       });
   }
 
@@ -39,14 +69,43 @@ export function HakuLomake() {
       <div className="space-y-4 p-4 pt-2">
         <form onSubmit={kasitteleHaku} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="hakuNimi">Asiakkaan nimi</Label>
-            <Input
-              id="hakuNimi"
-              placeholder="Kirjoita nimi"
-              value={hakuNimi}
-              onChange={(e) => setHakuNimi(e.target.value)}
-            />
+            <Label htmlFor="hakuTyyppi">Hakutapa</Label>
+            <Select value={hakuTyyppi} onValueChange={setHakuTyyppi}>
+              <SelectTrigger id="hakuTyyppi" className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="nimi">Hae nimellä</SelectItem>
+                <SelectItem value="numero">Hae varausnumerolla</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
+
+          {hakuTyyppi === "nimi" ? (
+            <div className="space-y-2">
+              <Label htmlFor="hakuNimi">Asiakkaan nimi</Label>
+              <Input
+                id="hakuNimi"
+                placeholder="Kirjoita nimi"
+                value={hakuNimi}
+                onChange={(e) => setHakuNimi(e.target.value)}
+              />
+            </div>
+          ) : (
+            <div className="space-y-2">
+              <Label htmlFor="hakuNumero">Varausnumero</Label>
+              <Input
+                id="hakuNumero"
+                type="number"
+                placeholder="10000-99999"
+                value={hakuNumero}
+                onChange={(e) => setHakuNumero(e.target.value)}
+                min="10000"
+                max="99999"
+              />
+            </div>
+          )}
+
           <Button type="submit" className="w-full">
             Hae
           </Button>

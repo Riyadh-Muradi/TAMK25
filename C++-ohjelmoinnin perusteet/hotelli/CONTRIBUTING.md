@@ -4,12 +4,7 @@
 
 Kloonaa repository:
 ```bash
-git clone https://github.com/Riyadh-Muradi/TAMK25.git
-```
-
-Siirry hakemistoon:
-```bash
-cd "C++-ohjelmoinnin perusteet/hotelli"
+git clone https://github.com/Riyadh-Muradi/Hotelli.git
 ```
 
 Asenna riippuvuudet:
