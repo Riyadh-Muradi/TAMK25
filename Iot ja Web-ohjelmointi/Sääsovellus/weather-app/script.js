@@ -1,26 +1,7 @@
 console.log("Hello, World! Lets start building the weather app!");
 
-const API_KEY = "ab1718e4939608a2b827c6a4b211603f"; // Korvaa omalla OpenWeatherMap API-avaimella
-
-const getDataAndUpdateUI = async (city) => {
-  console.log(`Fetching weather data for ${city}...`);
-  try {
-    const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
-    );
-
-    if (!response.ok) {
-      throw new Error(`Kaupunkia "${city}" ei löydy.`);
-    }
-
-    const data = await response.json();
-    console.log(`Weather data for ${city}:`, data);
-    updateUI(data);
-  } catch (error) {
-    console.error("Virhe datan haussa:", error);
-    alert(`Virhe: ${error.message}`);
-  }
-};
+const API_KEY = "6c98fda8f11aeccaf6d92c178e1209d9";
+const CITY = "Tampere";
 
 const updateUI = (data) => {
   const cityName = data.name;
@@ -46,10 +27,11 @@ const updateUI = (data) => {
   document.querySelector(".attribution").textContent = "Säädata: OpenWeatherMap API";
 };
 
-document.getElementById("search-form").addEventListener("submit", (event) => {
-  event.preventDefault();
-  const cityInput = document.getElementById("city-input").value;
-  if (cityInput) {
-    getDataAndUpdateUI(cityInput);
-  }
-});
+(async () =>{
+  const response = await fetch(
+    `https://api.openweathermap.org/data/2.5/weather?q=${CITY}&appid=${API_KEY}&units=metric`
+  );
+  const data = await response.json();
+  console.log(`Weather data for ${CITY}:`, data);
+  updateUI(data);
+})();
