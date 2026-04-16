@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sääsivu (© Esa P.)</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Sääsivu (© Esa P.)</h1>
+    </header>
+
+    <main class="app">
+        <section class="weather-card" aria-label="Weather card">
+            <form id="search-form" class="search" role="search" aria-label="Hae kaupunki">
+                <label class="sr-only" for="city-input">Kaupunki</label>
+                <input id="city-input" type="text" placeholder="Hae kaupunki...">
+                <button id="search-button" type="submit">Hae</button>
+            </form>
+
+            <div class="weather-main">
+                <div>
+                    <div id="city-name" class="location">—</div>
+                    <div id="temperature" class="temp">—°C</div>
+                    <div id="feels-like" class="feels-like">—°C</div>
+                    <div id="humidity" class="humidity">Kosteus: —%</div>
+                    <div id="wind-speed" class="wind">Tuuli: — m/s</div>
+                    <div id="weather-description" class="desc">Ei saatavilla</div>
+                </div>
+            </div>
+
+            <div class="weather-footer">
+                <div class="info">Päivitetty: —</div>
+                <div class="attribution">Säädata: paikallinen API</div>
+            </div>
+        </section>
+
+        <section>
+            <canvas id="weather-chart"></canvas>
+        </section>
+
+        <p class="note">Tämä on sääsivu, joka näyttää sääennusteen.</p>
+        <p class="unavailable">Valitettavasti sääennuste ei ole saatavilla tällä hetkellä.</p>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
