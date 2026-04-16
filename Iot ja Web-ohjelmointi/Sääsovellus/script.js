@@ -7,10 +7,10 @@ let tempChart; // Chart.js-käppyrä tähän muuttujaan: päivitetään jo haun 
 
 const getDataAndUpdateUI = async (city) => {
   console.log(`Fetching weather data for ${city}...`);
-  
+
   const currentWeatherData = await getCurrentWeatherData(city); // Haetaan tämän hetkinen säädata
   updateUI(currentWeatherData); // Päivitetään UI:hin saatu data (tämän hetkinen sää)
-  
+
   const forecastData = await getForeccastData(city); // Haetaan forecast-data
   drawChart(forecastData); // Piiretään kappyra forecast-dataststa
 };
@@ -20,7 +20,7 @@ const getCurrentWeatherData = async (city) => {
   // ja palautetaan se JSON-muodossa
   try {
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`,
     );
 
     if (!response.ok) {
@@ -40,7 +40,7 @@ const getForeccastData = async (city) => {
   // ja palautetaan se JSON-muodossa
   try {
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`
+      `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`,
     );
 
     if (!response.ok) {
@@ -64,11 +64,15 @@ const updateUI = (data) => {
   const weatherDescription = data.weather[0].description;
 
   document.getElementById("city-name").textContent = cityName;
-  document.getElementById("temperature").textContent = `${temperature.toFixed(2)}°C`;
-  document.getElementById("feels-like").textContent = `${feelsLike.toFixed(2)}°C`;
+  document.getElementById("temperature").textContent =
+    `${temperature.toFixed(2)}°C`;
+  document.getElementById("feels-like").textContent =
+    `${feelsLike.toFixed(2)}°C`;
   document.getElementById("humidity").textContent = `Humidity: ${humidity}%`;
-  document.getElementById("wind-speed").textContent = `Wind Speed: ${windSpeed} m/s`;
-  document.getElementById("weather-description").textContent = weatherDescription;
+  document.getElementById("wind-speed").textContent =
+    `Wind Speed: ${windSpeed} m/s`;
+  document.getElementById("weather-description").textContent =
+    weatherDescription;
 
   // Päivitetty-aikaleima
   const now = new Date();
@@ -76,7 +80,8 @@ const updateUI = (data) => {
   document.querySelector(".info").textContent = `Päivitetty: ${timeString}`;
 
   // Päivitä datan lähde footeriin
-  document.querySelector(".attribution").textContent = "Säädata: OpenWeatherMap API";
+  document.querySelector(".attribution").textContent =
+    "Säädata: OpenWeatherMap API";
 };
 
 function drawChart(data) {
@@ -115,4 +120,19 @@ function drawChart(data) {
   });
 }
 
-getDataAndUpdateUI(CITY);
+// Search form handler
+document.addEventListener("DOMContentLoaded", () => {
+  const searchForm = document.getElementById("search-form");
+  if (searchForm) {
+    searchForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const cityInput = document.getElementById("city-input");
+      const city = cityInput.value.trim();
+      if (city) {
+        getDataAndUpdateUI(city);
+      }
+    });
+  }
+
+  getDataAndUpdateUI(CITY);
+});

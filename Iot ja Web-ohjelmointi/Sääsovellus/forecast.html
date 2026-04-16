@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sääsivu (© Diar M.)</title>
+    <title>Ennuste - Sääsovellus</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -13,8 +13,8 @@
         <nav class="navbar">
           <div class="nav-brand">Sääsovellus</div>
           <ul class="nav-links">
-            <li><a href="index.html" class="active">Etusivu</a></li>
-            <li><a href="forecast.html">Ennuste</a></li>
+            <li><a href="index.html">Etusivu</a></li>
+            <li><a href="forecast.html" class="active">Ennuste</a></li>
             <li><a href="about.html">Tietoa</a></li>
           </ul>
         </nav>
@@ -34,24 +34,19 @@
             <button id="search-button" type="submit">Hae</button>
           </form>
 
-          <div class="weather-main">
-            <div>
-              <div id="city-name" class="location">—</div>
-              <div id="temperature" class="temp">—°C</div>
-              <div id="feels-like" class="feels-like">—°C</div>
-              <div id="humidity" class="humidity">Kosteus: —%</div>
-              <div id="wind-speed" class="wind">Tuuli: — m/s</div>
-              <div id="weather-description" class="desc">Ei saatavilla</div>
-            </div>
-          </div>
-
           <div class="weather-footer">
             <div class="info">Päivitetty: —</div>
             <div class="attribution">Säädata: paikallinen API</div>
           </div>
         </section>
 
-        <p class="note">Tämä on sääsivu, joka näyttää nykyisen sääntilan.</p>
+        <section>
+          <canvas id="weather-chart"></canvas>
+        </section>
+
+        <p class="note">
+          Tämä on ennuste-sivu, joka näyttää sääennusteen grafiikassa.
+        </p>
       </section>
     </main>
 
@@ -63,6 +58,7 @@
       </div>
     </footer>
 
-    <script src="script-index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script-forecast.js"></script>
   </body>
 </html>
