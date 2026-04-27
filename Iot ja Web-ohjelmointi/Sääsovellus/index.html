@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sääsivu © Riyadh Muradi</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <main class="app-container">
+        <header>
+            <h1>Sääsivu © Riyadh Muradi</h1>
+        </header>
+
+        <section class="weather-card">
+            <form id="search-form">
+                <input id="city-input" type="text" placeholder="Hae kaupunki..." required>
+                <button type="submit">Hae</button>
+            </form>
+
+            <div class="weather-content">
+                <h2 id="city-name">Tampere</h2>
+                <div class="main-display">
+                    <span id="temperature">—°C</span>
+                    <p id="description">Ladataan...</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <i data-lucide="thermometer"></i>
+                        <p>Tuntuu: <span id="feels-like">—°C</span></p>
+                    </div>
+                    <div class="stat-item">
+                        <i data-lucide="droplets"></i>
+                        <p>Kosteus: <span id="humidity">-%</span></p>
+                    </div>
+                    <div class="stat-item">
+                        <i data-lucide="wind"></i>
+                        <p>Tuuli: <span id="wind-speed">— m/s</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <footer>
+                <p id="update-time">Päivitetty: —</p>
+                <p>Säädata: OpenWeatherMap</p>
+            </footer>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
